@@ -3,7 +3,7 @@ import React from "react";
 function Logo({ scale }) {
     return (
         <div
-            className={`flex text-5xl uppercase text-center justify-center items-center mb-5 scale-[${
+            className={`flex text-5xl uppercase text-center justify-center items-center scale-[${
                 scale || 1
             }]`}
         >
