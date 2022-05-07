@@ -87,7 +87,7 @@ function Signup() {
                     ></input>
                 )}
                 <button
-                    className="bg-blue-600 w-fit h-fit px-5 py-2 rounded uppercase mt-8 hover:bg-blue-500"
+                    className="text-white bg-blue-600 w-fit h-fit px-5 py-2 rounded uppercase mt-8 hover:bg-blue-500"
                     onClick={submit}
                 >
                     Submit
