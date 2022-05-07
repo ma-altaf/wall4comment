@@ -47,14 +47,14 @@ function Signup() {
                     {isLogIn ? "Log In" : "Create Account"}
                 </h1>
                 {message && (
-                    <div className="w-full bg-red-100 rounded p-3">
+                    <div className="w-full bg-red-100 rounded py-2 px-4">
                         <h2 className="font-bold">Oops we could not proceed</h2>
                         <p>{message}</p>
                     </div>
                 )}
                 {!isLogIn && (
                     <input
-                        className="border-b-2 border-black w-full px-3 py-2 my-2"
+                        className="border-b-2 border-black w-full px-3 py-2 my-2 focus:outline-none focus:border-blue-600 duration-300"
                         type="text"
                         placeholder="USERNAME"
                         value={username}
@@ -62,14 +62,14 @@ function Signup() {
                     ></input>
                 )}
                 <input
-                    className="border-b-2 border-black w-full px-3 py-2 my-2"
+                    className="border-b-2 border-black w-full px-3 py-2 my-2 focus:outline-none focus:border-blue-600 duration-200"
                     type="email"
                     placeholder="EMAIL"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                 ></input>
                 <input
-                    className="border-b-2 border-black w-full px-3 py-2 my-2"
+                    className="border-b-2 border-black w-full px-3 py-2 my-2 focus:outline-none focus:border-blue-600 duration-300"
                     type="password"
                     placeholder="PASSWORD"
                     value={password}
@@ -77,7 +77,7 @@ function Signup() {
                 ></input>
                 {!isLogIn && (
                     <input
-                        className="border-b-2 border-black w-full px-3 py-2 my-2"
+                        className="border-b-2 border-black w-full px-3 py-2 my-2 focus:outline-none focus:border-blue-600 duration-300"
                         type="password"
                         placeholder="CONFIRM PASSWORD"
                         value={confirmPassword}
@@ -87,7 +87,7 @@ function Signup() {
                     ></input>
                 )}
                 <button
-                    className="bg-blue-600 w-fit h-fit px-5 py-2 rounded uppercase mt-8"
+                    className="bg-blue-600 w-fit h-fit px-5 py-2 rounded uppercase mt-8 hover:bg-blue-500"
                     onClick={submit}
                 >
                     Submit
