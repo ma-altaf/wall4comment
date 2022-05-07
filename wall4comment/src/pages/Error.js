@@ -4,8 +4,8 @@ function Error() {
     return (
         <div className="flex w-full justify-center items-center flex-col h-screen">
             <h1 className="uppercase text-5xl font-bold">Error</h1>
-            <div className="max-w-3/5 m-5 p-5">
-                <div className="flex text-justify items-center flex-col mt-12">
+            <div className="max-w-3/5">
+                <div className="flex text-justify items-center flex-col m-5">
                     Oops, there was an error displaying this page. (ensure the
                     requested URL is correctly entered)
                     <Link
