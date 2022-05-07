@@ -14,19 +14,23 @@ function Signup() {
         // validate inputs
         // username
         if (!isLogIn && username.length < 3) {
-            newMessage += "Username must contain atleast 3 characters.";
+            newMessage += "\n- Username must contain atleast 3 characters.";
         }
         // email
         if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-            newMessage += "\nIncorrect Email.";
+            newMessage += "\n- Incorrect Email.";
         }
         // password
         if (password.length < 6) {
-            newMessage += "\nPassword must contain atleast 6 characters.";
+            newMessage += "\n- Password must contain atleast 6 characters.";
         }
         // confirm password
-        if (!isLogIn && password != confirmPassword) {
-            newMessage += "\nPasswords do not match";
+        if (!isLogIn && password !== confirmPassword) {
+            newMessage += "\n- Passwords do not match";
+        }
+
+        if (newMessage.startsWith("\n")) {
+            newMessage = newMessage.substring(1);
         }
 
         setMessage(newMessage);
@@ -47,7 +51,7 @@ function Signup() {
                     {isLogIn ? "Log In" : "Create Account"}
                 </h1>
                 {message && (
-                    <div className="w-full bg-red-100 rounded py-2 px-4">
+                    <div className="whitespace-pre w-full bg-red-100 rounded py-2 px-4">
                         <h2 className="font-bold">Oops we could not proceed</h2>
                         <p>{message}</p>
                     </div>
@@ -101,9 +105,7 @@ function Signup() {
                         className="text-blue-600 underline mt-5"
                         onClick={() =>
                             setIsLogIn((prev) => {
-                                setEmail("");
                                 setUsername("");
-                                setPassword("");
                                 setConfirmPassword("");
                                 setMessage("");
                                 return !prev;
