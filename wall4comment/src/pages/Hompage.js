@@ -1,10 +1,12 @@
 import Logo from "../components/Logo";
+import Navbar from "../components/Navbar";
 
 function Hompage() {
     return (
         <>
+            <Navbar />
             <div className="flex w-full justify-center items-center h-screen">
-                <div className="w-full md:w-3/5 m-5 p-5">
+                <div className="w-full md:w-3/4 m-5 p-5">
                     <Logo />
                     <div className="text-justify mt-12">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit,

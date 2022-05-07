@@ -1,0 +1,121 @@
+import { useState } from "react";
+
+function Signup() {
+    const [isLogIn, setIsLogIn] = useState(false);
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [message, setMessage] = useState("");
+
+    const submit = () => {
+        let newMessage = "";
+
+        // validate inputs
+        // username
+        if (!isLogIn && username.length < 3) {
+            newMessage += "Username must contain atleast 3 characters.";
+        }
+        // email
+        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            newMessage += "\nIncorrect Email.";
+        }
+        // password
+        if (password.length < 6) {
+            newMessage += "\nPassword must contain atleast 6 characters.";
+        }
+        // confirm password
+        if (!isLogIn && password != confirmPassword) {
+            newMessage += "\nPasswords do not match";
+        }
+
+        setMessage(newMessage);
+
+        if (newMessage) {
+            return;
+        }
+
+        console.log(username);
+        console.log(email);
+        console.log(password);
+    };
+
+    return (
+        <div className="flex w-screen h-screen justify-center items-center bg-gray-100">
+            <div className="p-8 bg-white rounded w-3/5 max-w-screen-sm flex flex-col items-center">
+                <h1 className="uppercase font-bold text-center text-3xl mb-5">
+                    {isLogIn ? "Log In" : "Create Account"}
+                </h1>
+                {message && (
+                    <div className="w-full bg-red-100 rounded p-3">
+                        <h2 className="font-bold">Oops we could not proceed</h2>
+                        <p>{message}</p>
+                    </div>
+                )}
+                {!isLogIn && (
+                    <input
+                        className="border-b-2 border-black w-full px-3 py-2 my-2"
+                        type="text"
+                        placeholder="USERNAME"
+                        value={username}
+                        onChange={(event) => setUsername(event.target.value)}
+                    ></input>
+                )}
+                <input
+                    className="border-b-2 border-black w-full px-3 py-2 my-2"
+                    type="email"
+                    placeholder="EMAIL"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                ></input>
+                <input
+                    className="border-b-2 border-black w-full px-3 py-2 my-2"
+                    type="password"
+                    placeholder="PASSWORD"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                ></input>
+                {!isLogIn && (
+                    <input
+                        className="border-b-2 border-black w-full px-3 py-2 my-2"
+                        type="password"
+                        placeholder="CONFIRM PASSWORD"
+                        value={confirmPassword}
+                        onChange={(event) =>
+                            setConfirmPassword(event.target.value)
+                        }
+                    ></input>
+                )}
+                <button
+                    className="bg-blue-600 w-fit h-fit px-5 py-2 rounded uppercase mt-8"
+                    onClick={submit}
+                >
+                    Submit
+                </button>
+                <h5>
+                    {isLogIn
+                        ? "Don't have an account"
+                        : "Already have an account?"}
+                    &nbsp;
+                    <button
+                        className="text-blue-600 underline mt-5"
+                        onClick={() =>
+                            setIsLogIn((prev) => {
+                                setEmail("");
+                                setUsername("");
+                                setPassword("");
+                                setConfirmPassword("");
+                                setMessage("");
+                                return !prev;
+                            })
+                        }
+                    >
+                        {isLogIn ? "Create Account" : "Log In"}
+                    </button>
+                </h5>
+            </div>
+        </div>
+    );
+}
+
+export default Signup;

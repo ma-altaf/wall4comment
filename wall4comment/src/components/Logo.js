@@ -1,11 +1,11 @@
 import React from "react";
 
-function Logo({ scale }) {
+function Logo({ shrink }) {
     return (
         <div
-            className={`flex text-3xl md:text-5xl uppercase text-center justify-center items-center scale-[${
-                scale || 1
-            }]`}
+            className={`flex text-3xl md:text-5xl uppercase text-center justify-center items-center ${
+                shrink && "scale-50"
+            }`}
         >
             <h1 className="absolute -translate-y-3/4 -translate-x-1/2 font-bold w-fit">
                 wall
