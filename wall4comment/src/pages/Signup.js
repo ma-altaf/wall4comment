@@ -1,5 +1,10 @@
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+} from "firebase/auth";
 import { useState } from "react";
-import db from "../API/firebase";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../API/auth";
 
 function Signup() {
     const [isLogIn, setIsLogIn] = useState(true);
@@ -8,8 +13,9 @@ function Signup() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
+    const navigate = useNavigate();
 
-    const submit = () => {
+    const submit = async () => {
         let newMessage = "";
 
         // validate inputs
@@ -36,8 +42,19 @@ function Signup() {
 
         setMessage(newMessage);
 
-        if (newMessage) {
-            return;
+        // client side validation not met, no need to continue
+        if (newMessage) return;
+
+        try {
+            if (isLogIn) {
+                await signInWithEmailAndPassword(auth, email, password);
+            } else {
+                await createUserWithEmailAndPassword(auth, email, password);
+            }
+
+            navigate("/profile");
+        } catch (error) {
+            setMessage(error.message);
         }
 
         console.log(username);
