@@ -1,4 +1,5 @@
 import { useState } from "react";
+import db from "../API/firebase";
 
 function Signup() {
     const [isLogIn, setIsLogIn] = useState(true);
@@ -98,7 +99,7 @@ function Signup() {
                 </button>
                 <h5>
                     {isLogIn
-                        ? "Don't have an account"
+                        ? "Don't have an account?"
                         : "Already have an account?"}
                     &nbsp;
                     <button
