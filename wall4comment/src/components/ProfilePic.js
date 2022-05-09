@@ -1,5 +1,5 @@
 import React from "react";
-import defaultPP from "../asset/pp1.jpg";
+import defaultPP from "../asset/defaultPic.jpg";
 
 function ProfilePic({ image, rounded = false }) {
     return (
