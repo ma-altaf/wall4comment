@@ -1,11 +1,11 @@
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    updateProfile,
 } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../API/auth";
+import { setName } from "../API/firestore";
 
 function Signup() {
     const [isLogIn, setIsLogIn] = useState(true);
@@ -51,9 +51,7 @@ function Signup() {
                 await signInWithEmailAndPassword(auth, email, password);
             } else {
                 await createUserWithEmailAndPassword(auth, email, password);
-                await updateProfile(auth.currentUser, {
-                    displayName: username,
-                });
+                await setName(username);
             }
 
             navigate("/profile");
