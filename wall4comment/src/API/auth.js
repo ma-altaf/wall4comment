@@ -11,7 +11,6 @@ function AuthWrapper({ children }) {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setUser(user);
-            console.log(user);
         });
 
         return () => {

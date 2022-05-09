@@ -21,7 +21,7 @@ function Signup() {
 
         // validate inputs
         // username
-        if (!isLogIn && username.length < 3) {
+        if (!isLogIn && username.length <= 0) {
             newMessage += "\n- Username must contain atleast 3 characters.";
         }
         // email

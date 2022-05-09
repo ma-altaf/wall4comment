@@ -4,17 +4,17 @@ import { auth } from "./auth";
 import app from "./firebase";
 
 const db = getFirestore(app);
+const userRef = () => doc(db, "users", `${auth.currentUser.uid}`);
 
 const setName = async (username) => {
     try {
-        // set username on firestore auth
+        // set username on firebase auth
         await updateProfile(auth.currentUser, {
             displayName: username,
         });
 
         // set username on firestore
-        const usernameRef = doc(db, "users", `${auth.currentUser.uid}`);
-        await setDoc(usernameRef, {
+        await setDoc(userRef(), {
             username,
         });
     } catch (error) {
@@ -24,19 +24,35 @@ const setName = async (username) => {
 
 const updateName = async (username) => {
     try {
-        // update username on firestore auth
+        // update username on firebase auth
         await updateProfile(auth.currentUser, {
             displayName: username,
         });
 
         // update username on firestore
-        const usernameRef = doc(db, "users", `${auth.currentUser.uid}`);
-        await updateDoc(usernameRef, {
+        await updateDoc(userRef(), {
             username,
         });
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
     }
 };
 
-export { setName, updateName };
+const updateImg = async (image) => {
+    console.log(image);
+    // const photoURL = "";
+    // try {
+    //     // update user profile picture URl on firebase auth
+    //     await updateProfile(auth.currentUser, {
+    //         photoURL,
+    //     });
+    //     // update user profile picture URl on firestore auth
+    //     await updateDoc(userRef(), {
+    //         photoURL,
+    //     });
+    // } catch (error) {
+    //     console.log(error.message);
+    // }
+};
+
+export { setName, updateName, updateImg };
