@@ -1,4 +1,4 @@
-import { useContext, useState, useRef, useEffect } from "react";
+import { useContext, useState } from "react";
 import { auth, AuthContext } from "../API/auth";
 import { getLocalImg } from "../API/filePicker";
 import { updateImg, updateName } from "../API/firestore";
@@ -7,17 +7,10 @@ import ProfilePic from "../components/ProfilePic";
 import { BiEdit } from "react-icons/bi";
 
 function Profile() {
-    const usernameRef = useRef(null);
     const user = useContext(AuthContext);
     const [username, setUsername] = useState(
         auth?.currentUser?.displayName || "..."
     );
-
-    // useEffect(() => {
-    //     if (username && usernameRef) {
-    //         usernameRef.current.size = username.length;
-    //     }
-    // }, [username]);
 
     return user ? (
         <>
