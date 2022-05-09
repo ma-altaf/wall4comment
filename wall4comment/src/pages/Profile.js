@@ -5,12 +5,21 @@ import { updateImg, updateName } from "../API/firestore";
 import Logo from "../components/Logo";
 import ProfilePic from "../components/ProfilePic";
 import { BiEdit } from "react-icons/bi";
+import { MdDone } from "react-icons/md";
 
 function Profile() {
     const user = useContext(AuthContext);
     const [username, setUsername] = useState(
-        auth?.currentUser?.displayName || "..."
+        auth.currentUser?.displayName || "..."
     );
+
+    const changeName = () => {
+        if (username.length > 0) {
+            username !== auth.currentUser.displayName && updateName(username);
+        } else {
+            setUsername(auth.currentUser.displayName);
+        }
+    };
 
     return user ? (
         <>
@@ -39,23 +48,28 @@ function Profile() {
                         value={username}
                         onChange={(event) => {
                             setUsername(event.target.value);
-                            event.currentTarget.size = username.length;
+                            event.currentTarget.size = username.length || 1;
                         }}
                         onKeyDown={(event) => {
                             if (event.key === "Enter") {
-                                if (username.length > 0) {
-                                    username !== auth.currentUser.displayName &&
-                                        updateName(username);
-                                } else {
-                                    setUsername(auth.currentUser.displayName);
-                                }
+                                changeName();
                                 event.currentTarget.blur();
                             }
                         }}
                     ></input>
-                    <label htmlFor="username">
-                        <BiEdit className="text-3xl text-gray-400" />
-                    </label>
+                    {username !== auth.currentUser.displayName ? (
+                        <button
+                            onClick={(event) => {
+                                changeName();
+                            }}
+                        >
+                            <MdDone className="text-3xl text-blue-600" />
+                        </button>
+                    ) : (
+                        <label htmlFor="username">
+                            <BiEdit className="text-3xl text-gray-400" />
+                        </label>
+                    )}
                 </div>
             </div>
         </>
