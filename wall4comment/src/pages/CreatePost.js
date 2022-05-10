@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { addNewPost } from "../API/firestore";
 
 function CreatePost() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const createPost = (event) => {
+    const navigate = useNavigate();
+
+    const createPost = async (event) => {
         event.target.disabled = true;
 
         setTitle((prev) => prev.trim());
@@ -17,15 +20,19 @@ function CreatePost() {
             return;
         }
 
-        console.log("creating post");
-        console.log("title:", title.trim());
-        console.log("description:", description.trim());
-
-        // only re-enable if creating post did not go through
-        event.target.disabled = false;
+        try {
+            await addNewPost({
+                title: title.trim(),
+                description: description.trim(),
+            });
+            navigate("/profile");
+        } catch (error) {
+            console.log(error.message);
+            alert("Sorry, post could not be added");
+            event.target.disabled = false;
+        }
     };
 
-    const navigate = useNavigate();
     return (
         <div className="bg-gray-100 w-screen overflow-x-hidden min-h-screen p-4">
             <header className="flex text-3xl sticky top-0">

@@ -28,7 +28,11 @@ const uploadProfilePic = async (image) => {
                 console.log(error);
             },
             () => {
-                updateProfilePic(getDownloadURL(uploadTask.snapshot.ref));
+                try {
+                    updateProfilePic(getDownloadURL(uploadTask.snapshot.ref));
+                } catch (error) {
+                    console.log(error);
+                }
             }
         );
     } catch (error) {

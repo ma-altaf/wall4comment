@@ -57,8 +57,13 @@ function Profile() {
 
     const changeName = async () => {
         if (username.length > 0) {
-            username !== defaultUser && (await updateName(username));
-            setDefaultUser(username);
+            try {
+                username !== defaultUser && (await updateName(username));
+                setDefaultUser(username);
+            } catch (error) {
+                alert("Sorry, username could not be changed");
+                setUsername(defaultUser);
+            }
         } else {
             setUsername(defaultUser);
         }
