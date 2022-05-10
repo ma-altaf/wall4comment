@@ -71,7 +71,7 @@ function Profile() {
 
     return user ? (
         <div className="bg-gray-100 min-h-screen overflow-x-hidden">
-            <div className="flex items-center flex-col w-screen h-fit p-4 pt-32">
+            <div className="flex items-center flex-col w-screen h-fit p-8 md:pt-14 lg:pt-24">
                 <input
                     type={"file"}
                     className="hidden"
@@ -127,7 +127,7 @@ function Profile() {
                 </Link>
             </div>
             {posts.length != 0 ? (
-                <div className="w-screen h-fit p-4 px-4 grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-24">
+                <div className="w-screen h-fit pb-4 grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-24">
                     {posts.map(({ title, numComment, postID }) => {
                         return (
                             <PostCard
@@ -139,7 +139,7 @@ function Profile() {
                     })}
                 </div>
             ) : (
-                <div className="flex justify-center items-center w-screen pt-2 overflow-hidden">
+                <div className="flex justify-center items-center w-screen pb-4 overflow-hidden">
                     <div className="flex items-center flex-col text-gray-400 text-3xl">
                         <BiCommentAdd className="w-56 h-56" />
                         <h1>Create your first post !</h1>
