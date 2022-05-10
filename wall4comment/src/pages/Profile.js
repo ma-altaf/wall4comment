@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { auth, AuthContext } from "../API/auth";
 import { getLocalImg } from "../API/filePicker";
 import { updateImg, updateName } from "../API/firestore";
@@ -8,21 +8,19 @@ import { BiEdit } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 
 function Profile() {
-    const nameButtonRef = useRef(null);
-    let defaultUser = auth.currentUser?.displayName;
     const user = useContext(AuthContext);
     const [username, setUsername] = useState(
         auth.currentUser?.displayName || "..."
     );
+    const [defaultUser, setDefaultUser] = useState(username);
 
     const changeName = async () => {
         if (username.length > 0) {
             username !== defaultUser && (await updateName(username));
-            defaultUser = username;
+            setDefaultUser(username);
         } else {
             setUsername(defaultUser);
         }
-        nameButtonRef.current.classList.add("bg-gray-400");
     };
 
     return user ? (
@@ -63,7 +61,6 @@ function Profile() {
                     ></input>
                     {username !== defaultUser ? (
                         <button
-                            ref={nameButtonRef}
                             className="bg-blue-600 rounded m-1 p-1"
                             onClick={() => {
                                 changeName();
