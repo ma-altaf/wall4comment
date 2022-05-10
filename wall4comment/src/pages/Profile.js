@@ -1,17 +1,20 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import { auth, AuthContext } from "../API/auth";
-import { getLocalImg } from "../API/filePicker";
-import { updateImg, updateName } from "../API/firestore";
+import { updateName } from "../API/firestore";
 import Logo from "../components/Logo";
 import ProfilePic from "../components/ProfilePic";
 import { BiEdit } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
+import { uploadProfilePic } from "../API/storage";
 
 function Profile() {
+    const imgInputRef = useRef();
+    const imgRef = useRef();
     const user = useContext(AuthContext);
     const [username, setUsername] = useState(
         auth.currentUser?.displayName || "..."
     );
+    const [userImg, setUserImg] = useState(auth.currentUser?.photoURL);
     const [defaultUser, setDefaultUser] = useState(username);
 
     const changeName = async () => {
@@ -23,24 +26,37 @@ function Profile() {
         }
     };
 
+    const imgHandler = async (event) => {
+        const newImg = event.currentTarget.files[0];
+        if (!newImg) {
+            return;
+        }
+        try {
+            await uploadProfilePic(newImg);
+            setUserImg(URL.createObjectURL(newImg));
+        } catch (error) {
+            console.log(error);
+            alert("Sorry, there was an error changing the profile picture");
+        }
+    };
+
     return user ? (
         <>
             <div className="flex items-center flex-col w-screen h-fit p-4 pt-32">
+                <input
+                    type={"file"}
+                    className="hidden"
+                    accept="image/*"
+                    ref={imgInputRef}
+                    onChange={imgHandler}
+                />
                 <div
                     className="rounded-full z-50"
                     onClick={() => {
-                        alert("drag and drop image to change profile picture");
-                        // TODO: open file to choose image
-
-                        // updateImg(getLocalImg);
-                    }}
-                    // TODO: fix drag and drop feature
-                    onDrop={(event) => {
-                        event.preventDefault();
-                        alert("dropped");
+                        imgInputRef.current.click();
                     }}
                 >
-                    <ProfilePic image={auth.currentUser.photoURL} rounded />
+                    <ProfilePic imgRef={imgRef} image={userImg} rounded />
                 </div>
                 <div className="flex items-end m-6">
                     <input

@@ -38,21 +38,20 @@ const updateName = async (username) => {
     }
 };
 
-const updateImg = async (image) => {
-    console.log(image);
-    // const photoURL = "";
-    // try {
-    //     // update user profile picture URl on firebase auth
-    //     await updateProfile(auth.currentUser, {
-    //         photoURL,
-    //     });
-    //     // update user profile picture URl on firestore auth
-    //     await updateDoc(userRef(), {
-    //         photoURL,
-    //     });
-    // } catch (error) {
-    //     console.log(error.message);
-    // }
+const updateProfilePic = async (photoURLPromise) => {
+    const photoURL = await photoURLPromise;
+    try {
+        // update user profile picture URl on firebase auth
+        await updateProfile(auth.currentUser, {
+            photoURL,
+        });
+        // update user profile picture URl on firestore auth
+        await updateDoc(userRef(), {
+            photoURL,
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
 };
 
-export { setName, updateName, updateImg };
+export { setName, updateName, updateProfilePic };
