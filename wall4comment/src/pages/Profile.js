@@ -1,15 +1,16 @@
-import { useContext, useState, useRef } from "react";
-import { auth, AuthContext } from "../API/auth";
+import { useContext, useState, useRef, useEffect } from "react";
+import { auth, AuthContext, logOut } from "../API/auth";
 import { updateName } from "../API/firestore";
 import Logo from "../components/Logo";
 import ProfilePic from "../components/ProfilePic";
-import { BiEdit, BiCommentAdd } from "react-icons/bi";
+import { BiEdit, BiCommentAdd, BiExit } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { uploadProfilePic } from "../API/storage";
 import PostCard from "../components/PostCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Profile() {
+    const navigate = useNavigate();
     const imgInputRef = useRef();
     const imgRef = useRef();
     const user = useContext(AuthContext);
@@ -46,6 +47,14 @@ function Profile() {
         },
     ]);
 
+    useEffect(() => {
+        if (user == null) {
+            navigate("/signup");
+        }
+
+        return;
+    }, [user]);
+
     const changeName = async () => {
         if (username.length > 0) {
             username !== defaultUser && (await updateName(username));
@@ -72,6 +81,16 @@ function Profile() {
     return user ? (
         <div className="bg-gray-100 min-h-screen overflow-x-hidden">
             <div className="flex items-center flex-col w-screen h-fit p-8 md:pt-14 lg:pt-24">
+                <button
+                    className="flex items-center absolute top-0 right-0 text-gray-400 m-4"
+                    onClick={() => {
+                        window.confirm("Are sure you want to exit?") &&
+                            logOut();
+                    }}
+                >
+                    <p className=" text-xl mr-2 uppercase">Log Out</p>
+                    <BiExit className=" text-2xl" />
+                </button>
                 <input
                     type={"file"}
                     className="hidden"
@@ -128,9 +147,10 @@ function Profile() {
             </div>
             {posts.length != 0 ? (
                 <div className="w-screen h-fit pb-4 grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-24">
-                    {posts.map(({ title, numComment, postID }) => {
+                    {posts.map(({ title, numComment, postID }, index) => {
                         return (
                             <PostCard
+                                key={index}
                                 title={title}
                                 numComment={numComment}
                                 postID={postID}
