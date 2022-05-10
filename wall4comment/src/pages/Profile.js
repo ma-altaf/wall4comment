@@ -105,7 +105,7 @@ function Profile() {
                     ></input>
                     {username !== defaultUser ? (
                         <button
-                            className="bg-blue-600 rounded m-1 p-1"
+                            className="bg-blue-600 rounded m-1 p-1 aspect-square"
                             onClick={() => {
                                 changeName();
                             }}
