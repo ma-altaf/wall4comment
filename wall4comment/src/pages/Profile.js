@@ -3,7 +3,7 @@ import { auth, AuthContext } from "../API/auth";
 import { updateName } from "../API/firestore";
 import Logo from "../components/Logo";
 import ProfilePic from "../components/ProfilePic";
-import { BiEdit } from "react-icons/bi";
+import { BiEdit, BiCommentAdd } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { uploadProfilePic } from "../API/storage";
 import PostCard from "../components/PostCard";
@@ -119,17 +119,27 @@ function Profile() {
                     )}
                 </div>
             </div>
-            <div className="w-screen h-fit p-4 px-4 grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-24">
-                {posts.map(({ title, numComment, postID }) => {
-                    return (
-                        <PostCard
-                            title={title}
-                            numComment={numComment}
-                            postID={postID}
-                        />
-                    );
-                })}
-            </div>
+            {posts.length != 0 ? (
+                <div className="w-screen h-fit p-4 px-4 grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-24">
+                    {posts.map(({ title, numComment, postID }) => {
+                        return (
+                            <PostCard
+                                title={title}
+                                numComment={numComment}
+                                postID={postID}
+                            />
+                        );
+                    })}
+                </div>
+            ) : (
+                <div className="flex justify-center items-center w-screen pt-2 overflow-hidden">
+                    <div className="flex items-center flex-col text-gray-400 text-3xl">
+                        <BiCommentAdd className="w-56 h-56" />
+                        <h1>Create your first post !</h1>
+                    </div>
+                </div>
+            )}
+
             <div />
         </div>
     ) : (
