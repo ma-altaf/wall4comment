@@ -7,6 +7,7 @@ import { BiEdit, BiCommentAdd } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { uploadProfilePic } from "../API/storage";
 import PostCard from "../components/PostCard";
+import { Link } from "react-router-dom";
 
 function Profile() {
     const imgInputRef = useRef();
@@ -118,6 +119,12 @@ function Profile() {
                         </label>
                     )}
                 </div>
+                <Link
+                    className="px-6 py-2 bg-blue-600 text-white uppercase rounded-full"
+                    to={"/createPost"}
+                >
+                    New post
+                </Link>
             </div>
             {posts.length != 0 ? (
                 <div className="w-screen h-fit p-4 px-4 grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-24">
