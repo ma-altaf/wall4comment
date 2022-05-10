@@ -3,7 +3,7 @@ import React from "react";
 function Logo({ shrink = false }) {
     return (
         <div
-            className={`flex text-3xl md:text-5xl uppercase text-center justify-center items-center w-[32rem] h-fit overflow-hidden ${
+            className={`relative flex text-3xl md:text-5xl uppercase text-center justify-center items-center w-[32rem] h-fit overflow-hidden ${
                 shrink && "scale-50"
             }`}
         >

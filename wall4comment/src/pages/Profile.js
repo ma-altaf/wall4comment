@@ -6,6 +6,7 @@ import ProfilePic from "../components/ProfilePic";
 import { BiEdit } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { uploadProfilePic } from "../API/storage";
+import PostCard from "../components/PostCard";
 
 function Profile() {
     const imgInputRef = useRef();
@@ -16,6 +17,23 @@ function Profile() {
     );
     const [userImg, setUserImg] = useState(auth.currentUser?.photoURL);
     const [defaultUser, setDefaultUser] = useState(username);
+    const [posts, setPosts] = useState([
+        {
+            title: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            numComment: 10,
+            postID: "dfjahdfafkasdf",
+        },
+        {
+            title: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            numComment: 10,
+            postID: "eiureoqeroew",
+        },
+        {
+            title: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            numComment: 10,
+            postID: "816481541631",
+        },
+    ]);
 
     const changeName = async () => {
         if (username.length > 0) {
@@ -41,7 +59,7 @@ function Profile() {
     };
 
     return user ? (
-        <>
+        <div className="bg-gray-100 min-h-screen">
             <div className="flex items-center flex-col w-screen h-fit p-4 pt-32">
                 <input
                     type={"file"}
@@ -51,7 +69,7 @@ function Profile() {
                     onChange={imgHandler}
                 />
                 <div
-                    className="rounded-full z-50"
+                    className="rounded-full z-50 cursor-pointer"
                     onClick={() => {
                         imgInputRef.current.click();
                     }}
@@ -62,7 +80,7 @@ function Profile() {
                     <input
                         size={username.length}
                         id="username"
-                        className="text-3xl text-center focus:outline-none focus:border-blue-600 focus:border-b-2 duration-300"
+                        className="text-3xl text-center focus:outline-none focus:border-blue-600 focus:border-b-2 duration-300 bg-transparent"
                         value={username}
                         onChange={(event) => {
                             setUsername(event.target.value);
@@ -86,12 +104,24 @@ function Profile() {
                         </button>
                     ) : (
                         <label htmlFor="username">
-                            <BiEdit className="text-3xl text-gray-400" />
+                            <BiEdit className="text-3xl text-gray-400 cursor-pointer" />
                         </label>
                     )}
                 </div>
             </div>
-        </>
+            <div className="w-screen h-fit p-4 px-4 grid gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-24">
+                {posts.map(({ title, numComment, postID }) => {
+                    return (
+                        <PostCard
+                            title={title}
+                            numComment={numComment}
+                            postID={postID}
+                        />
+                    );
+                })}
+            </div>
+            <div />
+        </div>
     ) : (
         <div className="flex justify-center items-center uppercase w-screen h-screen">
             <div className="text-xl flex items-center flex-col">

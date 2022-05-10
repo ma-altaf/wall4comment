@@ -5,13 +5,13 @@ function ProfilePic({ image, rounded = false, imgRef }) {
     return (
         <div
             className={`w-52 h-52 ${
-                rounded && "rounded-full"
+                rounded && "rounded-full bg-gray-100"
             } overflow-hidden pointer-events-none`}
         >
             <img
                 ref={imgRef}
                 src={image || defaultPP}
-                className="w-full h-full object-cover"
+                className="object-cover w-full h-full"
             />
         </div>
     );
