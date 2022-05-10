@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { auth, AuthContext } from "../API/auth";
 import { getLocalImg } from "../API/filePicker";
 import { updateImg, updateName } from "../API/firestore";
@@ -8,17 +8,21 @@ import { BiEdit } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 
 function Profile() {
+    const nameButtonRef = useRef(null);
+    let defaultUser = auth.currentUser?.displayName;
     const user = useContext(AuthContext);
     const [username, setUsername] = useState(
         auth.currentUser?.displayName || "..."
     );
 
-    const changeName = () => {
+    const changeName = async () => {
         if (username.length > 0) {
-            username !== auth.currentUser.displayName && updateName(username);
+            username !== defaultUser && (await updateName(username));
+            defaultUser = username;
         } else {
-            setUsername(auth.currentUser.displayName);
+            setUsername(defaultUser);
         }
+        nameButtonRef.current.classList.add("bg-gray-400");
     };
 
     return user ? (
@@ -57,13 +61,15 @@ function Profile() {
                             }
                         }}
                     ></input>
-                    {username !== auth.currentUser.displayName ? (
+                    {username !== defaultUser ? (
                         <button
-                            onClick={(event) => {
+                            ref={nameButtonRef}
+                            className="bg-blue-600 rounded m-1 p-1"
+                            onClick={() => {
                                 changeName();
                             }}
                         >
-                            <MdDone className="text-3xl text-blue-600" />
+                            <MdDone className="text-white" />
                         </button>
                     ) : (
                         <label htmlFor="username">
