@@ -52,6 +52,9 @@ function Profile() {
             navigate("/signup");
         }
 
+        if (user) {
+        }
+
         return;
     }, [user]);
 
@@ -87,7 +90,7 @@ function Profile() {
         <div className="bg-gray-100 min-h-screen overflow-x-hidden">
             <div className="flex items-center flex-col w-screen h-fit p-8 md:pt-14 lg:pt-24">
                 <button
-                    className="flex items-center absolute top-0 right-0 text-gray-400 m-4"
+                    className="flex items-center absolute top-0 right-0 text-gray-400 m-1 md:m-2 lg:m-4"
                     onClick={() => {
                         window.confirm("Are sure you want to exit?") &&
                             logOut();
@@ -104,6 +107,7 @@ function Profile() {
                     onChange={imgHandler}
                 />
                 <div
+                    title="Click to change profile picture"
                     className="rounded-full z-50 cursor-pointer"
                     onClick={() => {
                         imgInputRef.current.click();
@@ -111,7 +115,10 @@ function Profile() {
                 >
                     <ProfilePic imgRef={imgRef} image={userImg} rounded />
                 </div>
-                <div className="flex items-end m-6">
+                <div
+                    className="flex items-end m-6"
+                    title="Click to change username"
+                >
                     <input
                         size={username.length}
                         id="username"
@@ -131,6 +138,7 @@ function Profile() {
                     {username !== defaultUser ? (
                         <button
                             className="bg-blue-600 rounded m-1 p-1 aspect-square"
+                            title="Click to submit change"
                             onClick={() => {
                                 changeName();
                             }}

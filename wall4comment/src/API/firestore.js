@@ -6,12 +6,15 @@ import {
     getFirestore,
     addDoc,
     collection,
+    Timestamp,
 } from "firebase/firestore";
 import { auth } from "./auth";
 import app from "./firebase";
 
 const db = getFirestore(app);
 const userRef = () => doc(db, "users", `${auth.currentUser.uid}`);
+const postColRef = () =>
+    collection(db, `users/${auth.currentUser.uid}`, `posts`);
 
 const setName = async (username) => {
     // set username on firebase auth
@@ -51,8 +54,11 @@ const updateProfilePic = async (photoURLPromise) => {
 };
 
 const addNewPost = async (postContent) => {
-    const newPostRef = collection(db, `users/${auth.currentUser.uid}`, `posts`);
-    await addDoc(newPostRef, postContent);
+    await addDoc(postColRef(), { ...postContent, time: Timestamp.now() });
 };
 
-export { setName, updateName, updateProfilePic, addNewPost };
+const getPostList = async (limit = 1, docOffset = null) => {
+    // TODO: implement getting a list of limit documents starting at docOffset
+};
+
+export { setName, updateName, updateProfilePic, addNewPost, getPostList };

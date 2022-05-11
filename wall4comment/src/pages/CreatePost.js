@@ -37,6 +37,7 @@ function CreatePost() {
         <div className="bg-gray-100 w-screen overflow-x-hidden min-h-screen p-4">
             <header className="flex text-3xl sticky top-0">
                 <BiArrowBack
+                    title="Click to exit"
                     onClick={() => navigate(-1)}
                     className="cursor-pointer"
                 />
