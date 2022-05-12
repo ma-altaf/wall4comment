@@ -7,6 +7,12 @@ import {
     addDoc,
     collection,
     Timestamp,
+    query,
+    orderBy,
+    limit,
+    getDoc,
+    getDocs,
+    startAfter,
 } from "firebase/firestore";
 import { auth } from "./auth";
 import app from "./firebase";
@@ -47,6 +53,7 @@ const updateProfilePic = async (photoURLPromise) => {
     await updateProfile(auth.currentUser, {
         photoURL,
     });
+
     // update user profile picture URl on firestore auth
     await updateDoc(userRef(), {
         photoURL,
@@ -54,11 +61,18 @@ const updateProfilePic = async (photoURLPromise) => {
 };
 
 const addNewPost = async (postContent) => {
-    await addDoc(postColRef(), { ...postContent, time: Timestamp.now() });
+    const newDocRef = await addDoc(postColRef(), {
+        ...postContent,
+        time: Timestamp.now(),
+    });
+    await updateDoc(newDocRef, { postID: newDocRef.id, commentCount: 0 });
 };
 
-const getPostList = async (limit = 1, docOffset = null) => {
-    // TODO: implement getting a list of limit documents starting at docOffset
+const getPostList = async () => {
+    console.log("post requested");
+    const documentSnapshots = query(postColRef(), orderBy("time", "desc"));
+
+    return (await getDocs(documentSnapshots)).docs;
 };
 
 export { setName, updateName, updateProfilePic, addNewPost, getPostList };
