@@ -15,7 +15,7 @@ function PostCard({ title, commentCount = 0, postID }) {
     return (
         <Link
             ref={postRef}
-            className="m-2 p-6 h-fit rounded-lg shadow-md bg-white relative hover:shadow-lg duration-200 cursor-pointer"
+            className="m-2 pb-10 p-6 h-fit rounded-lg shadow-md bg-white relative hover:shadow-lg duration-200 cursor-pointer"
             to={`/postView/${postID}`}
             title="Click to view post"
         >
