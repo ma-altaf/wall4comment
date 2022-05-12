@@ -13,6 +13,7 @@ import {
     getDoc,
     getDocs,
     startAfter,
+    deleteDoc,
 } from "firebase/firestore";
 import { auth } from "./auth";
 import app from "./firebase";
@@ -75,4 +76,15 @@ const getPostList = async () => {
     return (await getDocs(documentSnapshots)).docs;
 };
 
-export { setName, updateName, updateProfilePic, addNewPost, getPostList };
+const deletePost = (postID) => {
+    deleteDoc(doc(db, `users/${auth.currentUser.uid}/posts/${postID}`));
+};
+
+export {
+    setName,
+    updateName,
+    updateProfilePic,
+    addNewPost,
+    getPostList,
+    deletePost,
+};
