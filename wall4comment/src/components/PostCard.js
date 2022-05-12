@@ -32,7 +32,7 @@ function PostCard({ title, commentCount = 0, postID }) {
                 </div>
 
                 <div
-                    className="rounded bg-gray-100 flex justify-center items-center px-1 h-fit"
+                    className="rounded bg-gray-100 flex justify-center items-center px-1 h-fit cursor-default"
                     title="Number of comment/s on this post"
                 >
                     <BiComment className="text-lg mr-1" />
