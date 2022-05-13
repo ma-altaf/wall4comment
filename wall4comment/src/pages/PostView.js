@@ -4,6 +4,7 @@ import { AuthContext } from "../API/auth";
 import { getPost } from "../API/firestore";
 import LoadingCover from "./LoadingCover";
 import BackBtn from "../components/BackBtn";
+import { BiCommentX } from "react-icons/bi";
 
 function PostView() {
     let descriptionRequested = false;
@@ -43,9 +44,18 @@ function PostView() {
             </header>
             <PostDescription postDescription={postDescription} />
             <div className="w-screen h-fit p-4 pt-0 flex flex-col items-center">
-                {comments.map(({ message, commentID }) => (
-                    <PostComment message={message} key={commentID} />
-                ))}
+                {comments.length !== 0 ? (
+                    comments.map(({ message, commentID }) => (
+                        <PostComment message={message} key={commentID} />
+                    ))
+                ) : (
+                    <div className="flex justify-center items-center w-screen p-4 overflow-hidden">
+                        <div className="flex items-center flex-col text-gray-400 text-3xl">
+                            <BiCommentX className="w-56 h-56" />
+                            <h1>No comments received yet</h1>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     ) : (
