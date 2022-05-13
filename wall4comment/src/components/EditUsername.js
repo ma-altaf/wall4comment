@@ -41,7 +41,7 @@ function EditUsername() {
             ></input>
             {username !== defaultUser ? (
                 <button
-                    className="bg-blue-600 rounded m-1 p-1 aspect-square"
+                    className="bg-blue-600 rounded-lg m-1 p-1 aspect-square"
                     title="Click to submit change"
                     onClick={() => {
                         changeName();

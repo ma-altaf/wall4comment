@@ -9,7 +9,7 @@ function Error() {
                     Oops, there was an error displaying this page. (ensure the
                     requested URL is correctly entered)
                     <Link
-                        className="m-5 bg-blue-600 w-fit px-5 py-3 rounded uppercase"
+                        className="m-5 bg-blue-600 w-fit px-5 py-3 rounded-lg uppercase"
                         to="/"
                     >
                         return to Hompage

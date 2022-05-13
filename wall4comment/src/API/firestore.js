@@ -19,9 +19,9 @@ import { auth } from "./auth";
 import app from "./firebase";
 
 const db = getFirestore(app);
-const userRef = () => doc(db, "users", `${auth.currentUser.uid}`);
-const postColRef = () =>
-    collection(db, `users/${auth.currentUser.uid}`, `posts`);
+const uid = () => auth.currentUser.uid;
+const userRef = () => doc(db, "users", `${uid()}`);
+const postColRef = () => collection(db, `users/${uid()}`, `posts`);
 
 const setName = async (username) => {
     // set username on firebase auth
@@ -70,14 +70,17 @@ const addNewPost = async (postContent) => {
 };
 
 const getPostList = async () => {
-    console.log("post requested");
     const documentSnapshots = query(postColRef(), orderBy("time", "desc"));
 
     return (await getDocs(documentSnapshots)).docs;
 };
 
 const deletePost = (postID) => {
-    deleteDoc(doc(db, `users/${auth.currentUser.uid}/posts/${postID}`));
+    deleteDoc(doc(db, `users/${uid()}/posts/${postID}`));
+};
+
+const getPost = async (postID) => {
+    return await getDoc(doc(db, `users/${uid()}/posts/`, `${postID}`));
 };
 
 export {
@@ -87,4 +90,5 @@ export {
     addNewPost,
     getPostList,
     deletePost,
+    getPost,
 };

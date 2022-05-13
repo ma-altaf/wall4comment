@@ -8,6 +8,7 @@ function PostList() {
     let postRequested = false;
     const user = useContext(AuthContext);
     const [posts, setPosts] = useState([]);
+
     const getPosts = async () => {
         try {
             let posts = await getPostList();

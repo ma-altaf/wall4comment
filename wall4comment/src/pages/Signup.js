@@ -74,12 +74,12 @@ function Signup() {
 
     return (
         <div className="flex w-screen h-screen justify-center items-center bg-gray-100">
-            <form className="p-8 bg-white rounded w-3/5 max-w-screen-sm flex flex-col items-center">
+            <form className="p-8 bg-white rounded-lg w-3/5 max-w-screen-sm flex flex-col items-center">
                 <h1 className="uppercase font-bold text-center text-3xl mb-5">
                     {isLogIn ? "Log In" : "Create Account"}
                 </h1>
                 {message && (
-                    <div className="whitespace-pre w-full bg-red-100 rounded py-2 px-4">
+                    <div className="whitespace-pre w-full bg-red-100 rounded-lg py-2 px-4">
                         <h2 className="font-bold">Oops we could not proceed</h2>
                         <p>{message}</p>
                     </div>
@@ -120,7 +120,7 @@ function Signup() {
                 )}
                 <button
                     type="submit"
-                    className="text-white bg-blue-600 w-fit h-fit px-5 py-2 rounded uppercase mt-8 hover:bg-blue-500"
+                    className="text-white bg-blue-600 w-fit h-fit px-5 py-2 rounded-lg uppercase mt-8 hover:bg-blue-500"
                     onClick={(event) => {
                         event.preventDefault();
                         submit();

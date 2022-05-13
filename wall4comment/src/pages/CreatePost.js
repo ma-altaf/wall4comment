@@ -8,7 +8,7 @@ function CreatePost() {
     const [description, setDescription] = useState("");
 
     return (
-        <div className="bg-gray-100 w-screen overflow-x-hidden min-h-screen p-4">
+        <div className="bg-gray-100 w-screen overflow-x-hidden min-h-screen p-2">
             <header className="flex text-3xl sticky top-0">
                 <BackBtn />
                 <h1 className="w-full text-center uppercase">
@@ -39,7 +39,7 @@ function TitleInput({ title, setTitle }) {
                 id="title"
                 type={"text"}
                 onChange={(event) => setTitle(event.target.value)}
-                className="rounded border-2 border-black w-full md:w-3/5 lg:w-3/6 p-2 focus:border-blue-600 outline-none duration-100"
+                className="rounded-lg border-2 border-black w-full md:w-3/5 lg:w-3/6 p-2 focus:border-blue-600 outline-none duration-100"
             ></input>
         </div>
     );
@@ -57,7 +57,7 @@ function DescriptionInput({ description, setDescription }) {
                 id="title"
                 type={"text"}
                 onChange={(event) => setDescription(event.target.value)}
-                className="rounded border-2 border-black w-full p-2 focus:border-blue-600 outline-none duration-100"
+                className="rounded-lg border-2 border-black w-full p-2 focus:border-blue-600 outline-none duration-100"
             ></textarea>
         </div>
     );

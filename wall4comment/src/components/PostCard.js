@@ -7,9 +7,10 @@ function PostCard({ title, commentCount = 0, postID }) {
     const postRef = useRef();
 
     const handleDelete = () => {
-        if (window.confirm(`Confirm deleting post.\n Title: ${title}`))
+        if (window.confirm(`Confirm deleting post.\n Title: ${title}`)) {
             deletePost(postID);
-        postRef.current.style.display = "none";
+            postRef.current.style.display = "none";
+        }
     };
 
     return (
@@ -21,7 +22,7 @@ function PostCard({ title, commentCount = 0, postID }) {
         >
             <div className="flex justify-center items-center text-gray-500 absolute right-2 bottom-0 mb-2">
                 <div
-                    className="text-lg mx-1 rounded hover:bg-gray-100 p-1"
+                    className="text-lg mx-1 rounded-lg hover:bg-red-500 hover:text-white p-1 duration-200"
                     title="Click to delete post"
                     onClick={(event) => {
                         event.preventDefault();
