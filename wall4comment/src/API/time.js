@@ -6,8 +6,9 @@ const HOUR_MILLI = 3600000;
 const MINUTE_MILLI = 60000;
 const SECOND_MILLI = 1000;
 
-const timeDiffString = (time1, time2) => {
-    const timeDiff = time1 - time2;
+const timeDiffString = (time) => {
+    const timeDiff = Date.now() - time;
+
     // number of years
     if (parseInt(timeDiff / YEAR_MILLI) > 0) {
         const val = parseInt(timeDiff / YEAR_MILLI);

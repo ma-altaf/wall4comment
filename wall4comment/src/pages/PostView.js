@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../API/auth";
-import { getPost } from "../API/firestore";
+import { getCommentsList, getPost } from "../API/firestore";
 import LoadingCover from "./LoadingCover";
 import BackBtn from "../components/BackBtn";
 import { BiCommentX } from "react-icons/bi";
@@ -12,25 +12,30 @@ function PostView() {
     const user = useContext(AuthContext);
     const { postID } = useParams();
     const [postDescription, setPostDescription] = useState({});
-    const [comments, setComments] = useState([
-        { message: "great job", commentID: 1, time: 1652453911967 },
-        { message: "great job again", commentID: 2, time: 1652453911967 },
-        { message: "great game", commentID: 3, time: 1652453911967 },
-        { message: "great game again", commentID: 4, time: 1652453911967 },
-    ]);
+    const [commentsList, setCommentsList] = useState([]);
 
     useEffect(() => {
         if (user && !descriptionRequested) {
             descriptionRequested = true;
             setDescription();
+            setComments();
         }
 
         return;
     }, []);
 
+    const setComments = async () => {
+        try {
+            const comments = await getCommentsList(user.uid, postID);
+            setCommentsList([...comments.map((comment) => comment.data())]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const setDescription = async () => {
         try {
-            const postData = await getPost(postID);
+            const postData = await getPost(user.uid, postID);
             setPostDescription(postData.data());
         } catch (error) {
             console.log(error);
@@ -45,10 +50,10 @@ function PostView() {
             </header>
             <PostDescription postDescription={postDescription} />
             <div className="w-screen h-fit p-4 pt-0 flex flex-col items-center">
-                {comments.length !== 0 ? (
-                    comments.map(({ message, commentID, time }) => (
+                {commentsList.length !== 0 ? (
+                    commentsList.map(({ comment, commentID, time }) => (
                         <PostComment
-                            message={message}
+                            comment={comment}
                             key={commentID}
                             time={time}
                         />
@@ -82,7 +87,7 @@ function PostDescription({ postDescription }) {
                         </>
                     )}
                     <h5 className="text-right -mb-2 text-gray-400 text-sm">
-                        {time && timeDiffString(Date.now(), time.toMillis())}
+                        {time && timeDiffString(time.toMillis())}
                     </h5>
                 </div>
             </div>
@@ -90,13 +95,12 @@ function PostDescription({ postDescription }) {
     );
 }
 
-function PostComment({ message, time }) {
+function PostComment({ comment, time }) {
     return (
         <div className="bg-white rounded-lg m-2 p-4 shadow-sm w-11/12 lg:w-4/6 text-lg">
-            <p>{message}</p>
+            <p>{comment}</p>
             <h5 className="text-right -mb-2 text-gray-400 text-sm">
-                {/* {time && timeDiffString(Date.now(), time.toMillis())} */}
-                {time && timeDiffString(Date.now(), time)}
+                {time && timeDiffString(time.toMillis())}
             </h5>
         </div>
     );

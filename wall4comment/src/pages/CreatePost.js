@@ -90,7 +90,7 @@ function CreatePostBtn({ title, description }) {
 
     return (
         <button
-            className="mt-4 px-6 py-2 rounded-full bg-blue-600 text-white w-fit uppercase hover:cursor-pointer hover:"
+            className="mt-4 px-6 py-2 rounded-full bg-blue-600 text-white w-fit uppercase hover:cursor-pointer"
             onClick={createPost}
         >
             create post

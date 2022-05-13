@@ -23,7 +23,7 @@ function PostCard({ title, commentCount = 0, postID, time }) {
         >
             <h1 className="font-semibold text-2xl">{title}</h1>
             <h5 className="text-gray-400 absolute left bottom-0 mb-2">
-                {time && timeDiffString(Date.now(), time.toMillis())}
+                {time && timeDiffString(time.toMillis())}
             </h5>
             <div className="flex justify-center items-center text-gray-500 absolute right-2 bottom-0 mb-2">
                 <div
