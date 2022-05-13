@@ -2,8 +2,9 @@ import { useRef } from "react";
 import { BiComment, BiTrash } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { deletePost } from "../API/firestore";
+import timeDiffString from "../API/time";
 
-function PostCard({ title, commentCount = 0, postID }) {
+function PostCard({ title, commentCount = 0, postID, time }) {
     const postRef = useRef();
 
     const handleDelete = () => {
@@ -20,6 +21,10 @@ function PostCard({ title, commentCount = 0, postID }) {
             to={`/postView/${postID}`}
             title="Click to view post"
         >
+            <h1 className="font-semibold text-2xl">{title}</h1>
+            <h5 className="text-gray-400 absolute left bottom-0 mb-2">
+                {time && timeDiffString(Date.now(), time.toMillis())}
+            </h5>
             <div className="flex justify-center items-center text-gray-500 absolute right-2 bottom-0 mb-2">
                 <div
                     className="text-lg mx-1 rounded-lg hover:bg-red-500 hover:text-white p-1 duration-200"
@@ -40,7 +45,6 @@ function PostCard({ title, commentCount = 0, postID }) {
                     <p className="text-xl">{commentCount}</p>
                 </div>
             </div>
-            <h1 className="font-semibold text-2xl">{title}</h1>
         </Link>
     );
 }

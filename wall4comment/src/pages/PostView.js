@@ -5,6 +5,7 @@ import { getPost } from "../API/firestore";
 import LoadingCover from "./LoadingCover";
 import BackBtn from "../components/BackBtn";
 import { BiCommentX } from "react-icons/bi";
+import timeDiffString from "../API/time";
 
 function PostView() {
     let descriptionRequested = false;
@@ -12,10 +13,10 @@ function PostView() {
     const { postID } = useParams();
     const [postDescription, setPostDescription] = useState({});
     const [comments, setComments] = useState([
-        { message: "great job", commentID: 1 },
-        { message: "great job again", commentID: 2 },
-        { message: "great game", commentID: 3 },
-        { message: "great game again", commentID: 4 },
+        { message: "great job", commentID: 1, time: 1652453911967 },
+        { message: "great job again", commentID: 2, time: 1652453911967 },
+        { message: "great game", commentID: 3, time: 1652453911967 },
+        { message: "great game again", commentID: 4, time: 1652453911967 },
     ]);
 
     useEffect(() => {
@@ -45,8 +46,12 @@ function PostView() {
             <PostDescription postDescription={postDescription} />
             <div className="w-screen h-fit p-4 pt-0 flex flex-col items-center">
                 {comments.length !== 0 ? (
-                    comments.map(({ message, commentID }) => (
-                        <PostComment message={message} key={commentID} />
+                    comments.map(({ message, commentID, time }) => (
+                        <PostComment
+                            message={message}
+                            key={commentID}
+                            time={time}
+                        />
                     ))
                 ) : (
                     <div className="flex justify-center items-center w-screen p-4 overflow-hidden">
@@ -64,31 +69,35 @@ function PostView() {
 }
 
 function PostDescription({ postDescription }) {
+    const { title, description, time } = postDescription;
     return (
         postDescription && (
             <div className="w-screen h-fit p-4 pb-1 flex flex-col items-center">
                 <div className="bg-white rounded-lg m-4 p-4 shadow-sm w-11/12 lg:w-4/6">
-                    <h1 className="text-3xl font-semibold">
-                        {postDescription.title}
-                    </h1>
-                    {postDescription.description && (
+                    <h1 className="text-3xl font-semibold">{title}</h1>
+                    {description && (
                         <>
-                            <div className="w-full h-px bg-slate-300 my-2 rounded-full"></div>
-                            <h1 className="text-xl">
-                                {postDescription.description}
-                            </h1>
+                            <div className="w-full h-px bg-gray-300 my-2 rounded-full"></div>
+                            <h1 className="text-xl">{description}</h1>
                         </>
                     )}
+                    <h5 className="text-right -mb-2 text-gray-400 text-sm">
+                        {time && timeDiffString(Date.now(), time.toMillis())}
+                    </h5>
                 </div>
             </div>
         )
     );
 }
 
-function PostComment({ message }) {
+function PostComment({ message, time }) {
     return (
         <div className="bg-white rounded-lg m-2 p-4 shadow-sm w-11/12 lg:w-4/6 text-lg">
             <p>{message}</p>
+            <h5 className="text-right -mb-2 text-gray-400 text-sm">
+                {/* {time && timeDiffString(Date.now(), time.toMillis())} */}
+                {time && timeDiffString(Date.now(), time)}
+            </h5>
         </div>
     );
 }

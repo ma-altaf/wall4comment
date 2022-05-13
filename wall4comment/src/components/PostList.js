@@ -30,12 +30,13 @@ function PostList() {
     if (posts.length != 0) {
         return (
             <div className="w-screen h-fit pb-12 grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-24">
-                {posts.map(({ title, commentCount, postID }) => (
+                {posts.map(({ title, commentCount, postID, time }) => (
                     <PostCard
                         key={postID}
                         title={title}
                         commentCount={commentCount}
                         postID={postID}
+                        time={time}
                     />
                 ))}
             </div>
