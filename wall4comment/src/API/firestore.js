@@ -118,6 +118,10 @@ const addComment = async (userID, postID, comment) => {
     });
 };
 
+// TODO: change to the actual link
+const getPostLink = (postID) =>
+    `http://localhost:3000/writeComment/${uid()}/${postID}`;
+
 export {
     setName,
     updateName,
@@ -129,4 +133,5 @@ export {
     getProfile,
     addComment,
     getCommentsList,
+    getPostLink,
 };
