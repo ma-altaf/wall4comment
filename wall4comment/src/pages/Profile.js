@@ -20,7 +20,7 @@ function Profile() {
     }, [user]);
 
     return user ? (
-        <div className="bg-gray-100 min-h-screen overflow-x-hidden">
+        <div className="min-h-screen overflow-x-hidden">
             <div className="flex items-center flex-col w-screen h-fit p-8 md:pt-14 lg:pt-24">
                 <LogOutBtn />
                 <ProfileImgEditable />

@@ -8,7 +8,7 @@ function CreatePost() {
     const [description, setDescription] = useState("");
 
     return (
-        <div className="bg-gray-100 w-screen overflow-x-hidden min-h-screen p-2">
+        <div className="w-screen overflow-x-hidden min-h-screen p-2">
             <header className="flex text-3xl sticky top-0">
                 <BackBtn />
                 <h1 className="w-full text-center uppercase">
