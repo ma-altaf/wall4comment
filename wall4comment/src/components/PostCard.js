@@ -33,7 +33,7 @@ function PostCard({ title, commentCount = 0, postID, time }) {
             </h5>
             <div className="flex justify-center items-center text-gray-500 absolute right-2 bottom-0 mb-2">
                 <div
-                    className="text-lg -mr-1 rounded-lg hover:bg-blue-600 hover:text-white p-1 duration-200"
+                    className="text-lg rounded-lg hover:bg-blue-600 hover:text-white p-1 duration-200"
                     title="Click to copy link to post"
                     onClick={(event) => {
                         event.preventDefault();
