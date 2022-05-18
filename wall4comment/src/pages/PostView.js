@@ -76,13 +76,13 @@ function PostView() {
     };
 
     return user ? (
-        <div className="bg-gray-100 w-screen overflow-x-hidden min-h-screen p-2">
-            <header className="flex text-3xl sticky top-0">
+        <div className="bg-gray-100 w-full overflow-x-hidden min-h-screen p-2">
+            <header className="flex text-3xl top-0 w-full">
                 <BackBtn />
                 <h1 className="w-full text-center uppercase">Post View</h1>
             </header>
             <PostDescription postDescription={postDescription} />
-            <div className="w-screen h-fit p-4 pt-0 flex flex-col items-center">
+            <div className="w-full h-fit pt-0 flex flex-col items-center">
                 {comments.length !== 0 ? (
                     comments.map(({ comment, commentID, time }, index) => {
                         if (
@@ -120,7 +120,7 @@ function PostDescription({ postDescription }) {
     const { title, description, time } = postDescription;
     return (
         postDescription && (
-            <div className="w-screen h-fit p-4 pb-1 flex flex-col items-center">
+            <div className="w-full h-fit flex flex-col items-center">
                 <div className="bg-white rounded-lg m-4 p-4 shadow-sm w-11/12 lg:w-4/6">
                     <h1 className="text-3xl font-semibold">{title}</h1>
                     {description && (
