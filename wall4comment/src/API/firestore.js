@@ -85,13 +85,20 @@ const getPostList = async (num, paginateDoc) => {
     return (await getDocs(documentSnapshots)).docs;
 };
 
-const getCommentsList = async (userID, postID) => {
+const getCommentsList = async (userID, postID, num, paginateDoc) => {
+    let options = [];
+    options.push(orderBy("time", "desc"));
+
+    if (paginateDoc) options.push(startAfter(paginateDoc));
+
+    if (num) options.push(limit(num));
+
     const postRef = collection(
         db,
         `users/${userID}/posts/${postID}`,
         "comments"
     );
-    const documentSnapshots = query(postRef, orderBy("time", "desc"));
+    const documentSnapshots = query(postRef, ...options);
     return (await getDocs(documentSnapshots)).docs;
 };
 

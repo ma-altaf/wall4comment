@@ -7,27 +7,31 @@ import BackBtn from "../components/BackBtn";
 import { BiCommentX } from "react-icons/bi";
 import timeDiffString from "../API/time";
 
+const NUM_REQ = 5;
+
 function PostView() {
+    const bottomRef = useRef();
+    const lastVisibleIndex = useRef(0);
+    const lastVisibleComment = useRef(0);
     const descriptionRequested = useRef(false);
     const user = useContext(AuthContext);
     const { postID } = useParams();
     const [postDescription, setPostDescription] = useState({});
-    const [commentsList, setCommentsList] = useState([]);
+    const [comments, setcomments] = useState([]);
 
-    useEffect(() => {
-        if (user && !descriptionRequested.current) {
-            descriptionRequested.current = true;
-            setDescription();
-            setComments();
-        }
-
-        return;
-    }, []);
-
-    const setComments = async () => {
+    const getComments = async () => {
         try {
-            const comments = await getCommentsList(user.uid, postID);
-            setCommentsList([...comments.map((comment) => comment.data())]);
+            const reqComments = await getCommentsList(
+                user.uid,
+                postID,
+                NUM_REQ,
+                lastVisibleComment.current
+            );
+            lastVisibleComment.current = reqComments[reqComments.length - 1];
+            setcomments((comments) => [
+                ...comments,
+                ...reqComments.map((comment) => comment.data()),
+            ]);
         } catch (error) {
             console.log(error);
         }
@@ -42,6 +46,35 @@ function PostView() {
         }
     };
 
+    useEffect(() => {
+        if (user && !descriptionRequested.current) {
+            descriptionRequested.current = true;
+            setDescription();
+            getComments();
+        }
+
+        return;
+    }, []);
+
+    const addPagination = (index) => {
+        lastVisibleIndex.current = index;
+
+        const callback = (entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    getComments();
+                    observer.disconnect();
+                }
+            });
+        };
+        setTimeout(() => {
+            let observer = new IntersectionObserver(callback, {
+                threshold: 1.0,
+            });
+            observer.observe(bottomRef.current);
+        }, 300);
+    };
+
     return user ? (
         <div className="bg-gray-100 w-screen overflow-x-hidden min-h-screen p-2">
             <header className="flex text-3xl sticky top-0">
@@ -50,14 +83,21 @@ function PostView() {
             </header>
             <PostDescription postDescription={postDescription} />
             <div className="w-screen h-fit p-4 pt-0 flex flex-col items-center">
-                {commentsList.length !== 0 ? (
-                    commentsList.map(({ comment, commentID, time }) => (
-                        <PostComment
-                            comment={comment}
-                            key={commentID}
-                            time={time}
-                        />
-                    ))
+                {comments.length !== 0 ? (
+                    comments.map(({ comment, commentID, time }, index) => {
+                        if (
+                            (index + 1) % NUM_REQ === 0 &&
+                            index > lastVisibleIndex.current
+                        )
+                            addPagination(index);
+                        return (
+                            <PostComment
+                                comment={comment}
+                                key={commentID}
+                                time={time}
+                            />
+                        );
+                    })
                 ) : (
                     <div className="flex justify-center items-center w-screen p-4 overflow-hidden">
                         <div className="flex items-center flex-col text-gray-400 text-3xl">
@@ -66,6 +106,9 @@ function PostView() {
                         </div>
                     </div>
                 )}
+                <div className="bg-gray-50 h-40" ref={bottomRef}>
+                    bottom
+                </div>
             </div>
         </div>
     ) : (

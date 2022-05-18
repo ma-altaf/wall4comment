@@ -21,7 +21,10 @@ function PostList() {
                 lastVisiblePost.current
             );
             lastVisiblePost.current = requestedPosts[requestedPosts.length - 1];
-            setPosts([...posts, ...requestedPosts.map((post) => post.data())]);
+            setPosts((posts) => [
+                ...posts,
+                ...requestedPosts.map((post) => post.data()),
+            ]);
         } catch (error) {
             console.log(error);
         }
