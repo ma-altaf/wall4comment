@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BiSend } from "react-icons/bi";
 import { addComment, getPost, getProfile } from "../API/firestore";
@@ -7,13 +7,13 @@ import ProfilePic from "../components/ProfilePic";
 
 function WriteComment() {
     const { userID, postID } = useParams();
-    let descriptionRequested = false;
+    const descriptionRequested = useRef(false);
     const [postDescription, setPostDescription] = useState({});
     const [userProfile, setUserProfile] = useState({});
 
     useEffect(() => {
-        if (!descriptionRequested) {
-            descriptionRequested = true;
+        if (!descriptionRequested.current) {
+            descriptionRequested.current = true;
             setDescription();
             getUserProfile();
         }

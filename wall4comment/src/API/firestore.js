@@ -15,7 +15,6 @@ import {
     startAfter,
     deleteDoc,
     increment,
-    writeBatch,
 } from "firebase/firestore";
 import { auth } from "./auth";
 import app from "./firebase";
@@ -74,8 +73,15 @@ const addNewPost = async (postContent) => {
     });
 };
 
-const getPostList = async () => {
-    const documentSnapshots = query(postColRef(), orderBy("time", "desc"));
+const getPostList = async (num, paginateDoc) => {
+    let options = [];
+    options.push(orderBy("time", "desc"));
+
+    if (paginateDoc) options.push(startAfter(paginateDoc));
+
+    if (num) options.push(limit(num));
+
+    const documentSnapshots = query(postColRef(), ...options);
     return (await getDocs(documentSnapshots)).docs;
 };
 

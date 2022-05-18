@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../API/auth";
 import { getCommentsList, getPost } from "../API/firestore";
@@ -8,15 +8,15 @@ import { BiCommentX } from "react-icons/bi";
 import timeDiffString from "../API/time";
 
 function PostView() {
-    let descriptionRequested = false;
+    const descriptionRequested = useRef(false);
     const user = useContext(AuthContext);
     const { postID } = useParams();
     const [postDescription, setPostDescription] = useState({});
     const [commentsList, setCommentsList] = useState([]);
 
     useEffect(() => {
-        if (user && !descriptionRequested) {
-            descriptionRequested = true;
+        if (user && !descriptionRequested.current) {
+            descriptionRequested.current = true;
             setDescription();
             setComments();
         }
