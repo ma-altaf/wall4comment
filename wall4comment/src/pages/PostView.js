@@ -106,8 +106,11 @@ function PostView() {
                         </div>
                     </div>
                 )}
-                <div className="bg-gray-50 h-40" ref={bottomRef}>
-                    bottom
+                <div
+                    className="bg-gray-50 h-40 w-11/12 lg:w-4/6 p-2 m-12 flex justify-center items-center"
+                    ref={bottomRef}
+                >
+                    ads banner
                 </div>
             </div>
         </div>

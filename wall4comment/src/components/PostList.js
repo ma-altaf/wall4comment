@@ -60,25 +60,32 @@ function PostList() {
 
     if (posts.length !== 0) {
         return (
-            <div className="w-screen h-fit pb-12 grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-24">
-                {posts.map(({ title, commentCount, postID, time }, index) => {
-                    if (
-                        (index + 1) % NUM_REQ === 0 &&
-                        index > lastVisibleIndex.current
-                    )
-                        addPagination(index);
-                    return (
-                        <PostCard
-                            key={postID}
-                            title={title}
-                            commentCount={commentCount}
-                            postID={postID}
-                            time={time}
-                        />
-                    );
-                })}
-                <div className="bg-gray-50 h-40" ref={bottomRef}>
-                    bottom
+            <div className="w-screen h-fit pb-12 lg:px-24">
+                <div className="w-full grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 ">
+                    {posts.map(
+                        ({ title, commentCount, postID, time }, index) => {
+                            if (
+                                (index + 1) % NUM_REQ === 0 &&
+                                index > lastVisibleIndex.current
+                            )
+                                addPagination(index);
+                            return (
+                                <PostCard
+                                    key={postID}
+                                    title={title}
+                                    commentCount={commentCount}
+                                    postID={postID}
+                                    time={time}
+                                />
+                            );
+                        }
+                    )}
+                </div>
+                <div
+                    className="bg-gray-50 h-40 mt-12 mx-2 md:mx-14 flex justify-center items-center"
+                    ref={bottomRef}
+                >
+                    ads banner
                 </div>
             </div>
         );
