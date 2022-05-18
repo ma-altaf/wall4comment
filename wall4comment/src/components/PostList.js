@@ -52,7 +52,7 @@ function PostList() {
         };
         setTimeout(() => {
             let observer = new IntersectionObserver(callback, {
-                threshold: 1.0,
+                threshold: 0.5,
             });
             observer.observe(bottomRef.current);
         }, 300);
