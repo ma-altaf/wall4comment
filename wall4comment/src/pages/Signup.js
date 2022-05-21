@@ -64,9 +64,8 @@ function Signup() {
             } else {
                 await createUserWithEmailAndPassword(auth, email, password);
                 await setName(username.trim());
+                window.location.reload();
             }
-
-            navigate("/profile");
         } catch (error) {
             setMessage(error.message);
         }
