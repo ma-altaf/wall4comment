@@ -6,7 +6,6 @@ import {
     getFirestore,
     addDoc,
     collection,
-    Timestamp,
     query,
     orderBy,
     limit,
@@ -15,6 +14,7 @@ import {
     startAfter,
     deleteDoc,
     increment,
+    serverTimestamp,
 } from "firebase/firestore";
 import { auth } from "./auth";
 import app from "./firebase";
@@ -65,9 +65,10 @@ const updateProfilePic = async (photoURLPromise) => {
 const addNewPost = async (postContent) => {
     const newDocRef = await addDoc(postColRef(), {
         ...postContent,
-        time: Timestamp.now(),
-        commentCount: 0,
+        time: serverTimestamp(),
+        commentCount: Number(0),
     });
+
     await updateDoc(newDocRef, {
         postID: newDocRef.id,
     });
@@ -119,13 +120,14 @@ const addComment = async (userID, postID, comment) => {
         collection(db, `users/${userID}/posts/${postID}`, "comments"),
         {
             comment,
-            time: Timestamp.now(),
+            time: serverTimestamp(),
         }
     );
+    console.log(newCommentRef);
     await updateDoc(doc(db, `users/${userID}/posts/`, `${postID}`), {
         commentCount: increment(1),
-        commentID: newCommentRef.id,
     });
+
     await updateDoc(newCommentRef, {
         commentID: newCommentRef.id,
     });
