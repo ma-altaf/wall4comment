@@ -4,24 +4,29 @@ import {
     getDownloadURL,
     uploadBytesResumable,
 } from "firebase/storage";
+import { useState } from "react";
 import { auth } from "./auth";
 import app from "./firebase";
 import { updateProfilePic } from "./firestore";
 
 const storage = getStorage(app);
 
-const uploadProfilePic = async (image) => {
-    try {
-        const uid = auth.currentUser.uid;
-        const imgRef = ref(storage, `users/${uid}/profilePic-${uid}`);
+const useUploadProfilePic = () => {
+    const [progress, setProgress] = useState(100);
+    const uid = auth.currentUser.uid;
+    const imgRef = ref(storage, `users/${uid}/profilePic-${uid}`);
+
+    const upload = async (image) => {
         const uploadTask = uploadBytesResumable(imgRef, image);
 
         uploadTask.on(
             "state_changed",
             (snapshot) => {
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log("Upload is " + progress + "% done");
+                setProgress(
+                    Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    )
+                );
             },
             (error) => {
                 alert("Sorry, new profile picture could not be uploaded");
@@ -35,9 +40,9 @@ const uploadProfilePic = async (image) => {
                 }
             }
         );
-    } catch (error) {
-        console.log(error);
-    }
+    };
+
+    return [upload, progress];
 };
 
-export { uploadProfilePic };
+export { useUploadProfilePic };

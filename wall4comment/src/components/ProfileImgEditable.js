@@ -1,6 +1,7 @@
 import { useRef, useState, useContext } from "react";
 import ProfilePic from "../components/ProfilePic";
-import { uploadProfilePic } from "../API/storage";
+import LoadingProgress from "../components/LoadingProgress";
+import { useUploadProfilePic } from "../API/storage";
 import { AuthContext } from "../API/auth";
 
 function ProfileImgEditable() {
@@ -8,6 +9,7 @@ function ProfileImgEditable() {
     const imgInputRef = useRef();
     const imgRef = useRef();
     const [userImg, setUserImg] = useState(user?.photoURL);
+    const [upload, progress] = useUploadProfilePic();
 
     const imgHandler = async (event) => {
         const newImg = event.currentTarget.files[0];
@@ -15,7 +17,7 @@ function ProfileImgEditable() {
             return;
         }
         try {
-            await uploadProfilePic(newImg);
+            await upload(newImg);
             setUserImg(URL.createObjectURL(newImg));
         } catch (error) {
             console.log(error);
@@ -34,11 +36,12 @@ function ProfileImgEditable() {
             />
             <div
                 title="Click to change profile picture"
-                className="rounded-full z-50 cursor-pointer"
+                className="rounded-full z-50 cursor-pointer relative overflow-hidden"
                 onClick={() => {
                     imgInputRef.current.click();
                 }}
             >
+                {progress != 100 && <LoadingProgress progress={progress} />}
                 <ProfilePic imgRef={imgRef} image={userImg} rounded />
             </div>
         </>
