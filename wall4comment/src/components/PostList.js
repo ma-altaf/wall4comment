@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiCommentAdd } from "react-icons/bi";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../API/auth";
 import { getPostList } from "../API/firestore";
 import PostCard from "../components/PostCard";
@@ -92,12 +93,16 @@ function PostList() {
     }
 
     return (
-        <div className="flex justify-center items-center w-screen pb-4 overflow-hidden">
+        <Link
+            className="flex justify-center items-center w-screen pb-4 overflow-hidden"
+            to={"/createPost"}
+            title="Click to create a new post"
+        >
             <div className="flex items-center flex-col text-gray-400 text-3xl">
                 <BiCommentAdd className="w-56 h-56" />
                 <h1>Create your first post !</h1>
             </div>
-        </div>
+        </Link>
     );
 }
 

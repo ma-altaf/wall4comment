@@ -78,7 +78,7 @@ function Signup() {
                     {isLogIn ? "Log In" : "Create Account"}
                 </h1>
                 {message && (
-                    <div className="whitespace-pre w-full bg-red-100 rounded-lg py-2 px-4">
+                    <div className="whitespace-pre-line w-full bg-red-100 rounded-lg py-2 px-4">
                         <h2 className="font-bold">Oops we could not proceed</h2>
                         <p>{message}</p>
                     </div>
