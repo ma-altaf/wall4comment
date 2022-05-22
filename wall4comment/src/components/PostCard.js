@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { BiComment, BiTrash, BiShare } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { deletePost, getPostLink } from "../API/firestore";
@@ -6,9 +6,9 @@ import timeDiffString from "../API/time";
 
 function PostCard({ title, commentCount = 0, postID, time }) {
     const postRef = useRef();
-
+    const [isCopied, setIsCopied] = useState(false);
     const handleDelete = () => {
-        if (window.confirm(`Confirm deleting post.\n Title: ${title}`)) {
+        if (window.confirm(`Confirm deleting post.\nTitle: ${title}`)) {
             deletePost(postID);
             postRef.current.style.display = "none";
         }
@@ -17,7 +17,10 @@ function PostCard({ title, commentCount = 0, postID, time }) {
     const handleShare = () => {
         const link = getPostLink(postID);
         navigator.clipboard.writeText(link);
-        alert(`link copied to clipboard:\n${link}`);
+        setIsCopied(true);
+        setTimeout(() => {
+            setIsCopied(false);
+        }, 1000);
     };
 
     return (
@@ -40,7 +43,13 @@ function PostCard({ title, commentCount = 0, postID, time }) {
                         handleShare();
                     }}
                 >
-                    <BiShare />
+                    {isCopied ? (
+                        <p className="text-sm uppercase rounded-lg py-1 px-2 -m-1 text-white bg-blue-600">
+                            Copied!
+                        </p>
+                    ) : (
+                        <BiShare />
+                    )}
                 </div>
                 <div
                     className="text-lg mr-px rounded-lg hover:bg-red-500 hover:text-white p-1 duration-200"
