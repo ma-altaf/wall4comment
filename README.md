@@ -2,7 +2,7 @@
 
 Exchange anonymous constructive comments
 
-## library used
+## Library used
 
 -   reactJS
 -   react-icons
