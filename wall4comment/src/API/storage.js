@@ -12,6 +12,7 @@ import { updateProfilePic } from "./firestore";
 const storage = getStorage(app);
 
 const useUploadProfilePic = () => {
+    // default 100 since there is no progress required (used to toggle display)
     const [progress, setProgress] = useState(100);
     const uid = auth.currentUser.uid;
     const imgRef = ref(storage, `users/${uid}/profilePic-${uid}`);
