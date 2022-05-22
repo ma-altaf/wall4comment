@@ -15,11 +15,21 @@ import {
     deleteDoc,
     increment,
     serverTimestamp,
+    enableIndexedDbPersistence,
 } from "firebase/firestore";
 import { auth } from "./auth";
 import app from "./firebase";
 
 const db = getFirestore(app);
+
+enableIndexedDbPersistence(db).catch((err) => {
+    if (err.code == "failed-precondition") {
+        alert("caching could not be enabled");
+    } else if (err.code == "unimplemented") {
+        alert("Browser does not support caching");
+    }
+});
+
 const uid = () => auth.currentUser.uid;
 const userRef = () => doc(db, "users", `${uid()}`);
 const postColRef = () => collection(db, `users/${uid()}`, `posts`);
