@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import {
     getStorage,
     ref,
@@ -43,7 +44,48 @@ const useUploadProfilePic = () => {
         );
     };
 
-    return [upload, progress];
+    return [progress, upload];
 };
 
-export { useUploadProfilePic };
+const useUploadPostImg = () => {
+    // default 100 since there is no progress required (used to toggle display)
+    const [progress, setProgress] = useState(0);
+    const uid = auth?.currentUser?.uid;
+
+    const upload = async (postID, images) => {
+        images.forEach((image, index) => {
+            const imgRef = ref(
+                storage,
+                `users/${uid}/${postID}/image-${index}`
+            );
+            const uploadTask = uploadBytesResumable(imgRef, image);
+
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    console.log(
+                        `image ${index}`,
+                        Math.round(
+                            (snapshot.bytesTransferred / snapshot.totalBytes) *
+                                100
+                        )
+                    );
+                },
+                (error) => {
+                    alert(`Sorry, image ${index + 1} could not be uploaded!`);
+                    // TODO: remove firestore and storage if an image could not be uploaded
+                    console.log(error);
+                },
+                () => {
+                    setProgress((prevVal) =>
+                        Math.round((prevVal += 1 / images.length) * 100)
+                    );
+                }
+            );
+        });
+    };
+
+    return [progress, upload];
+};
+
+export { useUploadProfilePic, useUploadPostImg };

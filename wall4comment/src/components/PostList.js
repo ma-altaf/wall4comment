@@ -62,7 +62,7 @@ function PostList() {
     if (posts.length !== 0) {
         return (
             <div className="w-screen h-fit pb-12 lg:px-24">
-                <div className="w-full grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3 ">
+                <div className="w-full grid gap-0 md:gap-1 lg:gap-4 grid-cols-1 md:grid-cols-2 md:px-12 lg:grid-cols-3">
                     {posts.map(
                         ({ title, commentCount, postID, time }, index) => {
                             if (

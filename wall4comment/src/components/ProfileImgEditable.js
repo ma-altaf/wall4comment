@@ -9,7 +9,7 @@ function ProfileImgEditable() {
     const imgInputRef = useRef();
     const imgRef = useRef();
     const [userImg, setUserImg] = useState(user?.photoURL);
-    const [upload, progress] = useUploadProfilePic();
+    const [progress, upload] = useUploadProfilePic();
 
     const imgHandler = async (event) => {
         const newImg = event.currentTarget.files[0];

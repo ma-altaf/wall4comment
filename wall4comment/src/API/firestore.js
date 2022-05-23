@@ -82,6 +82,8 @@ const addNewPost = async (postContent) => {
     await updateDoc(newDocRef, {
         postID: newDocRef.id,
     });
+
+    return newDocRef.id;
 };
 
 const getPostList = async (num, paginateDoc) => {
