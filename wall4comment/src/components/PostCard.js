@@ -2,15 +2,22 @@ import { useRef, useState } from "react";
 import { BiComment, BiTrash, BiShare } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { deletePost, getPostLink } from "../API/firestore";
+import { deletePostImages } from "../API/storage";
 import timeDiffString from "../API/time";
 
 function PostCard({ title, commentCount = 0, postID, time }) {
     const postRef = useRef();
     const [isCopied, setIsCopied] = useState(false);
-    const handleDelete = () => {
+
+    const handleDelete = async () => {
         if (window.confirm(`Confirm deleting post.\nTitle: ${title}`)) {
-            deletePost(postID);
-            postRef.current.style.display = "none";
+            try {
+                await deletePostImages(postID);
+                await deletePost(postID);
+                postRef.current.style.display = "none";
+            } catch (error) {
+                alert("post could not be deleted");
+            }
         }
     };
 
@@ -72,10 +79,6 @@ function PostCard({ title, commentCount = 0, postID, time }) {
             </div>
         </Link>
     );
-}
-
-function copyAlert() {
-    return <div></div>;
 }
 
 export default PostCard;

@@ -23,9 +23,9 @@ import app from "./firebase";
 const db = getFirestore(app);
 
 enableIndexedDbPersistence(db).catch((err) => {
-    if (err.code == "failed-precondition") {
+    if (err.code === "failed-precondition") {
         alert("caching could not be enabled");
-    } else if (err.code == "unimplemented") {
+    } else if (err.code === "unimplemented") {
         alert("Browser does not support caching");
     }
 });
@@ -116,7 +116,7 @@ const getCommentsList = async (userID, postID, num, paginateDoc) => {
 };
 
 const deletePost = (postID) => {
-    deleteDoc(doc(db, `users/${uid()}/posts/${postID}`));
+    return deleteDoc(doc(db, `users/${uid()}/posts/${postID}`));
 };
 
 const getPost = async (userID, postID) => {

@@ -1,4 +1,4 @@
-import { useReducer, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { addNewPost } from "../API/firestore";
 import { BiImageAdd, BiX } from "react-icons/bi";
@@ -165,6 +165,7 @@ function ImageHolder({ index, image, setImageList }) {
             <img
                 className="pointer-events-none object-cover"
                 src={URL.createObjectURL(image)}
+                alt={image.name}
             />
         </div>
     );
@@ -193,7 +194,6 @@ function CreatePostBtn({ title, description, imageList }) {
             });
 
             if (imageList.length !== 0) {
-                console.log(imageList);
                 await upload(postID, imageList);
             } else navigate("/profile");
         } catch (error) {
@@ -211,20 +211,21 @@ function CreatePostBtn({ title, description, imageList }) {
             style={uploading ? { width: "100%" } : {}}
         >
             <span
-                className="bg-black opacity-25 h-full absolute top-0 left-0 rounded-full duration-100"
+                className="bg-black opacity-25 h-full absolute top-0 left-0 duration-100"
                 style={{ width: `${progress}%` }}
             ></span>
             {uploading ? (
                 progress === 100 ? (
                     <>
-                        <p>complete</p>
+                        {" "}
+                        <p>Done</p>
                         <Navigate to="/profile" />
                     </>
                 ) : (
-                    <p>uploading...</p>
+                    <p>Uploading...</p>
                 )
             ) : (
-                <p>create post</p>
+                <p>Create Post</p>
             )}
         </button>
     );

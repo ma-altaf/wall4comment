@@ -1,9 +1,10 @@
-import { async } from "@firebase/util";
 import {
     getStorage,
     ref,
     getDownloadURL,
     uploadBytesResumable,
+    deleteObject,
+    listAll,
 } from "firebase/storage";
 import { useState } from "react";
 import { auth } from "./auth";
@@ -78,7 +79,7 @@ const useUploadPostImg = () => {
                 },
                 () => {
                     setProgress((prevVal) =>
-                        Math.round((prevVal += 1 / images.length) * 100)
+                        Math.round((prevVal += (1 / images.length) * 100))
                     );
                 }
             );
@@ -88,4 +89,10 @@ const useUploadPostImg = () => {
     return [progress, upload];
 };
 
-export { useUploadProfilePic, useUploadPostImg };
+const deletePostImages = async (postID) => {
+    const uid = auth?.currentUser?.uid;
+    const postRef = ref(storage, `users/${uid}/${postID}`);
+    (await listAll(postRef)).items.forEach((imgRef) => deleteObject(imgRef));
+};
+
+export { useUploadProfilePic, useUploadPostImg, deletePostImages };
