@@ -27,6 +27,7 @@ function Hompage() {
                 <a
                     className="underline text-blue-500"
                     target="_blank"
+                    rel="noreferrer"
                     href="https://altafagowun.web.app/"
                 >
                     A.Altaf
