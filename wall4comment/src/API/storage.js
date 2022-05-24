@@ -54,6 +54,7 @@ const useUploadPostImg = () => {
     const uid = auth?.currentUser?.uid;
 
     const upload = async (postID, images) => {
+        let NumImgUploaded = 0;
         images.forEach((image, index) => {
             const imgRef = ref(
                 storage,
@@ -78,8 +79,8 @@ const useUploadPostImg = () => {
                     console.log(error);
                 },
                 () => {
-                    setProgress((prevVal) =>
-                        Math.round((prevVal += (1 / images.length) * 100))
+                    setProgress(
+                        Math.round((++NumImgUploaded / images.length) * 100)
                     );
                 }
             );

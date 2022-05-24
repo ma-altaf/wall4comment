@@ -217,7 +217,6 @@ function CreatePostBtn({ title, description, imageList }) {
             {uploading ? (
                 progress === 100 ? (
                     <>
-                        {" "}
                         <p>Done</p>
                         <Navigate to="/profile" />
                     </>
