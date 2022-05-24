@@ -22,6 +22,16 @@ function Hompage() {
                     </div>
                 </div>
             </div>
+            <h5 className="w-full flex items-center justify-end px-10 h-16 -mt-16">
+                Developed by&nbsp;
+                <a
+                    className="underline text-blue-500"
+                    target="_blank"
+                    href="https://altafagowun.web.app/"
+                >
+                    A.Altaf
+                </a>
+            </h5>
         </>
     );
 }
