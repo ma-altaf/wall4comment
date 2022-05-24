@@ -98,7 +98,7 @@ function PostList() {
             to={"/createPost"}
             title="Click to create a new post"
         >
-            <div className="flex items-center flex-col text-gray-400 text-3xl">
+            <div className="flex items-center flex-col text-gray-400 text-3xl text-center">
                 <BiCommentAdd className="w-56 h-56" />
                 <h1>Create your first post !</h1>
             </div>

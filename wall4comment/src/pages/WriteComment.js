@@ -4,22 +4,36 @@ import { BiSend } from "react-icons/bi";
 import { addComment, getPost, getProfile } from "../API/firestore";
 import timeDiffString from "../API/time";
 import ProfilePic from "../components/ProfilePic";
+import ImageSection from "../components/ImageSection";
+import { getPostImageList } from "../API/storage";
 
 function WriteComment() {
     const { userID, postID } = useParams();
     const descriptionRequested = useRef(false);
     const [postDescription, setPostDescription] = useState({});
     const [userProfile, setUserProfile] = useState({});
+    const [postImagesURL, setPostImagesURL] = useState([]);
 
     useEffect(() => {
         if (!descriptionRequested.current) {
             descriptionRequested.current = true;
             setDescription();
+            setImages();
             getUserProfile();
         }
 
         return;
     }, []);
+
+    const setImages = async () => {
+        try {
+            const postImageList = await getPostImageList(userID, postID);
+            setPostImagesURL(postImageList);
+        } catch (error) {
+            console.log(error);
+            alert("Images could not be requested!");
+        }
+    };
 
     const getUserProfile = async () => {
         try {
@@ -49,6 +63,9 @@ function WriteComment() {
             <div className="w-full h-fit flex flex-col items-center overflow-x-hidden">
                 <div className="w-11/12 lg:w-4/6 rounded-lg bg-gray-200">
                     <PostDescription postDescription={postDescription} />
+                    {postImagesURL.length !== 0 && (
+                        <ImageSection postImagesURL={postImagesURL} />
+                    )}
                     <CommentTextBox userID={userID} postID={postID} />
                 </div>
             </div>
@@ -105,7 +122,7 @@ function SubmitCommentBtn({ userID, postID, comment }) {
     const submitComment = async (event) => {
         event.target.disabled = true;
 
-        if (comment.length == 0) {
+        if (comment.length === 0) {
             alert("comment cannot be empty");
             event.target.disabled = false;
             return;

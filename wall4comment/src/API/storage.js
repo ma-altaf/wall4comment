@@ -96,4 +96,20 @@ const deletePostImages = async (postID) => {
     (await listAll(postRef)).items.forEach((imgRef) => deleteObject(imgRef));
 };
 
-export { useUploadProfilePic, useUploadPostImg, deletePostImages };
+const getPostImageList = async (userID, postID) => {
+    const postRef = ref(storage, `users/${userID}/${postID}`);
+    const imgRefs = (await listAll(postRef)).items;
+
+    return Promise.all(
+        imgRefs
+            .sort((item1, item2) => item1.name > item2.name)
+            .map(async (imgRef) => await getDownloadURL(imgRef))
+    );
+};
+
+export {
+    useUploadProfilePic,
+    useUploadPostImg,
+    deletePostImages,
+    getPostImageList,
+};

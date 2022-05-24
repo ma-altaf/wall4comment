@@ -135,7 +135,6 @@ const addComment = async (userID, postID, comment) => {
             time: serverTimestamp(),
         }
     );
-    console.log(newCommentRef);
     await updateDoc(doc(db, `users/${userID}/posts/`, `${postID}`), {
         commentCount: increment(1),
     });

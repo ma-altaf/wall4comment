@@ -6,6 +6,8 @@ import LoadingCover from "./LoadingCover";
 import BackBtn from "../components/BackBtn";
 import { BiCommentX } from "react-icons/bi";
 import timeDiffString from "../API/time";
+import { getPostImageList } from "../API/storage";
+import ImageSection from "../components/ImageSection";
 
 const NUM_REQ = 5;
 
@@ -17,9 +19,21 @@ function PostView() {
     const user = useContext(AuthContext);
     const { postID } = useParams();
     const [postDescription, setPostDescription] = useState({});
-    const [comments, setcomments] = useState([]);
+    const [postComments, setPostComments] = useState([]);
+    const [postImagesURL, setPostImagesURL] = useState([]);
 
-    const getComments = async () => {
+    useEffect(() => {
+        if (user && !descriptionRequested.current) {
+            descriptionRequested.current = true;
+            setDescription();
+            setImages();
+            setComments();
+        }
+
+        return;
+    }, []);
+
+    const setComments = async () => {
         try {
             const reqComments = await getCommentsList(
                 user.uid,
@@ -28,7 +42,7 @@ function PostView() {
                 lastVisibleComment.current
             );
             lastVisibleComment.current = reqComments[reqComments.length - 1];
-            setcomments((comments) => [
+            setPostComments((comments) => [
                 ...comments,
                 ...reqComments.map((comment) => comment.data()),
             ]);
@@ -46,15 +60,15 @@ function PostView() {
         }
     };
 
-    useEffect(() => {
-        if (user && !descriptionRequested.current) {
-            descriptionRequested.current = true;
-            setDescription();
-            getComments();
+    const setImages = async () => {
+        try {
+            const postImageList = await getPostImageList(user.uid, postID);
+            setPostImagesURL(postImageList);
+        } catch (error) {
+            console.log(error);
+            alert("Images could not be requested!");
         }
-
-        return;
-    }, []);
+    };
 
     const addPagination = (index) => {
         lastVisibleIndex.current = index;
@@ -62,7 +76,7 @@ function PostView() {
         const callback = (entries, observer) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    getComments();
+                    setComments();
                     observer.disconnect();
                 }
             });
@@ -81,10 +95,13 @@ function PostView() {
                 <BackBtn />
                 <h1 className="w-full text-center uppercase">Post View</h1>
             </header>
-            <PostDescription postDescription={postDescription} />
+            <PostDescription
+                postDescription={postDescription}
+                postImagesURL={postImagesURL}
+            />
             <div className="w-full h-fit pt-0 flex flex-col items-center">
-                {comments.length !== 0 ? (
-                    comments.map(({ comment, commentID, time }, index) => {
+                {postComments.length !== 0 ? (
+                    postComments.map(({ comment, commentID, time }, index) => {
                         if (
                             (index + 1) % NUM_REQ === 0 &&
                             index > lastVisibleIndex.current
@@ -100,7 +117,7 @@ function PostView() {
                     })
                 ) : (
                     <div className="flex justify-center items-center w-screen p-4 overflow-hidden">
-                        <div className="flex items-center flex-col text-gray-400 text-3xl">
+                        <div className="flex items-center flex-col text-gray-400 text-3xl text-center">
                             <BiCommentX className="w-56 h-56" />
                             <h1>No comments received yet</h1>
                         </div>
@@ -119,22 +136,27 @@ function PostView() {
     );
 }
 
-function PostDescription({ postDescription }) {
+function PostDescription({ postDescription, postImagesURL }) {
     const { title, description, time } = postDescription;
     return (
         postDescription && (
             <div className="w-full h-fit flex flex-col items-center">
-                <div className="bg-white rounded-lg m-4 p-4 shadow-sm w-11/12 lg:w-4/6">
-                    <h1 className="text-3xl font-semibold">{title}</h1>
-                    {description && (
-                        <>
-                            <div className="w-full h-px bg-gray-300 my-2 rounded-full"></div>
-                            <h1 className="text-xl">{description}</h1>
-                        </>
+                <div className="rounded-lg m-4 shadow-sm w-11/12 lg:w-4/6 bg-gray-200 overflow-hidden">
+                    <div className="bg-white p-4 rounded-lg">
+                        <h1 className="text-3xl font-semibold">{title}</h1>
+                        {description && (
+                            <>
+                                <div className="w-full h-px bg-gray-300 my-2 rounded-full"></div>
+                                <h1 className="text-xl">{description}</h1>
+                            </>
+                        )}
+                        <h5 className="text-right -mb-2 text-gray-400 text-sm">
+                            {time && timeDiffString(time.toMillis())}
+                        </h5>
+                    </div>
+                    {postImagesURL.length !== 0 && (
+                        <ImageSection postImagesURL={postImagesURL} />
                     )}
-                    <h5 className="text-right -mb-2 text-gray-400 text-sm">
-                        {time && timeDiffString(time.toMillis())}
-                    </h5>
                 </div>
             </div>
         )
