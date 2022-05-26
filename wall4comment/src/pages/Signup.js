@@ -24,7 +24,8 @@ function Signup() {
         return;
     }, [user]);
 
-    const submit = async () => {
+    const submit = async (event) => {
+        event.target.disabled = true;
         let newMessage = "";
 
         // remove trailing and leading spaces
@@ -56,13 +57,19 @@ function Signup() {
         setMessage(newMessage);
 
         // client side validation not met, no need to continue
-        if (newMessage) return;
+        if (newMessage) {
+            event.target.disabled = false;
+            return;
+        }
 
         try {
             if (isLogIn) {
                 await logIn(email, password);
             } else {
                 await createAccount(username, email, password);
+                alert(
+                    "Please, verify your email addresss by clicking on the link in the email we sent you."
+                );
                 window.location.reload();
             }
         } catch (error) {
@@ -71,12 +78,13 @@ function Signup() {
                     .substring(error.code.indexOf("/") + 1)
                     .replace(/-/g, " ")}`
             );
+            event.target.disabled = false;
         }
     };
 
     return (
         <div className="flex w-screen h-screen justify-center items-center bg-gray-100">
-            <form className="p-8 bg-white rounded-lg w-3/5 max-w-screen-sm flex flex-col items-center">
+            <form className="p-8 bg-white rounded-lg w-4/5 md:max-w-screen-sm flex flex-col items-center">
                 <h1 className="uppercase font-bold text-center text-3xl mb-5">
                     {isLogIn ? "Log In" : "Create Account"}
                 </h1>
@@ -122,10 +130,10 @@ function Signup() {
                 )}
                 <button
                     type="submit"
-                    className="text-white bg-blue-600 w-fit h-fit px-5 py-2 rounded-lg uppercase mt-8 hover:bg-blue-500"
+                    className="text-white bg-blue-600 disabled:bg-gray-400 disabled:text-black w-fit h-fit px-5 py-2 rounded-lg uppercase mt-8 mb-5 hover:bg-blue-500"
                     onClick={(event) => {
                         event.preventDefault();
-                        submit();
+                        submit(event);
                     }}
                 >
                     Submit
@@ -136,7 +144,7 @@ function Signup() {
                         : "Already have an account?"}
                     &nbsp;
                     <button
-                        className="text-blue-600 underline mt-5"
+                        className="text-blue-600 underline"
                         onClick={(event) => {
                             event.preventDefault();
                             setIsLogIn((prev) => {
@@ -157,7 +165,9 @@ function Signup() {
                             className="text-blue-600 underline"
                             onClick={async (event) => {
                                 event.preventDefault();
+                                event.target.disabled = true;
                                 setMessage("");
+
                                 if (
                                     !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
                                         email
@@ -166,14 +176,19 @@ function Signup() {
                                     setMessage(
                                         "Please, enter the email for which you wish to reset the password"
                                     );
+                                    event.target.disabled = false;
                                     return;
                                 }
                                 try {
                                     await resetPasswordEmail(email);
+                                    alert(
+                                        "Please, check your email address for the password reset link."
+                                    );
                                 } catch (error) {
                                     alert(
-                                        "Could not send the password reset email.\nPlease ensure the email entered is correctly entered."
+                                        "Could not send the password reset email.\nPlease ensure the email entered is the correct one."
                                     );
+                                    event.target.disabled = false;
                                 }
                             }}
                         >
