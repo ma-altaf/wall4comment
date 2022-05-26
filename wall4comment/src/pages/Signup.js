@@ -151,7 +151,7 @@ function Signup() {
                         Forgot your password? &nbsp;
                         <button
                             className="text-blue-600 underline"
-                            onClick={(event) => {
+                            onClick={async (event) => {
                                 event.preventDefault();
                                 setMessage("");
                                 if (
@@ -164,7 +164,13 @@ function Signup() {
                                     );
                                     return;
                                 }
-                                resetPasswordEmail(email);
+                                try {
+                                    await resetPasswordEmail(email);
+                                } catch (error) {
+                                    alert(
+                                        "Could not send the password reset email.\nPlease ensure the email entered is correctly entered."
+                                    );
+                                }
                             }}
                         >
                             Reset Password
