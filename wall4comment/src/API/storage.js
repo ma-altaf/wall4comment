@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { auth } from "./auth";
 import app from "./firebase";
-import { updateProfilePic } from "./firestore";
+import { updateProfilePic } from "./auth";
 
 const storage = getStorage(app);
 

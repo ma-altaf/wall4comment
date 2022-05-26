@@ -1,11 +1,11 @@
-import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-} from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, AuthContext } from "../API/auth";
-import { setName } from "../API/firestore";
+import {
+    AuthContext,
+    createAccount,
+    logIn,
+    resetPasswordEmail,
+} from "../API/auth";
 
 function Signup() {
     const user = useContext(AuthContext);
@@ -60,10 +60,9 @@ function Signup() {
 
         try {
             if (isLogIn) {
-                await signInWithEmailAndPassword(auth, email, password);
+                await logIn(email, password);
             } else {
-                await createUserWithEmailAndPassword(auth, email, password);
-                await setName(username.trim());
+                await createAccount(username, email, password);
                 window.location.reload();
             }
         } catch (error) {
@@ -147,6 +146,31 @@ function Signup() {
                         {isLogIn ? "Create Account" : "Log In"}
                     </button>
                 </h5>
+                {isLogIn && (
+                    <h5>
+                        Forgot your password? &nbsp;
+                        <button
+                            className="text-blue-600 underline"
+                            onClick={(event) => {
+                                event.preventDefault();
+                                setMessage("");
+                                if (
+                                    !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                                        email
+                                    )
+                                ) {
+                                    setMessage(
+                                        "Please, enter the email for which you wish to reset the password"
+                                    );
+                                    return;
+                                }
+                                resetPasswordEmail(email);
+                            }}
+                        >
+                            Reset Password
+                        </button>
+                    </h5>
+                )}
             </form>
         </div>
     );

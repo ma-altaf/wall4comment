@@ -1,8 +1,17 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
 function ImageSection({ postImagesURL }) {
     const [imgIndex, setImgIndex] = useState(0);
+    const arrows = useRef([]);
+
+    useEffect(() => {
+        if (postImagesURL.length === 1) {
+            arrows.current.forEach((el) => (el.style.display = "none"));
+        }
+
+        return;
+    }, []);
 
     const updateImgIndex = (step) => {
         setImgIndex((prevIndex) => {
@@ -26,6 +35,7 @@ function ImageSection({ postImagesURL }) {
     return (
         <div className="w-full p-2 overflow-hidden flex justify-evenly items-center text-3xl">
             <button
+                ref={(el) => (arrows.current[0] = el)}
                 className="hover:bg-gray-100 h-fit aspect-square rounded-full p-1 z-10 duration-200"
                 title="Click to see next image"
                 onClick={() => updateImgIndex(-1)}
@@ -41,6 +51,7 @@ function ImageSection({ postImagesURL }) {
             </div>
 
             <button
+                ref={(el) => (arrows.current[1] = el)}
                 className="hover:bg-gray-100 h-fit aspect-square rounded-full p-1 z-10 duration-200"
                 title="Click to see previous image"
                 onClick={() => updateImgIndex(1)}

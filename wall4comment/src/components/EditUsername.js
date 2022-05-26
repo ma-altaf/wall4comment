@@ -1,8 +1,7 @@
 import { useState, useContext } from "react";
 import { BiEdit } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
-import { updateName } from "../API/firestore";
-import { AuthContext } from "../API/auth";
+import { AuthContext, updateName } from "../API/auth";
 
 function EditUsername() {
     const user = useContext(AuthContext);

@@ -1,7 +1,5 @@
-import { updateProfile } from "firebase/auth";
 import {
     doc,
-    setDoc,
     updateDoc,
     getFirestore,
     addDoc,
@@ -20,7 +18,7 @@ import {
 import { auth } from "./auth";
 import app from "./firebase";
 
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 enableIndexedDbPersistence(db).catch((err) => {
     if (err.code === "failed-precondition") {
@@ -31,46 +29,7 @@ enableIndexedDbPersistence(db).catch((err) => {
 });
 
 const uid = () => auth.currentUser.uid;
-const userRef = () => doc(db, "users", `${uid()}`);
 const postColRef = () => collection(db, `users/${uid()}`, `posts`);
-
-const setName = async (username) => {
-    // set username on firebase auth
-    await updateProfile(auth.currentUser, {
-        displayName: username,
-    });
-
-    // set username on firestore
-    await setDoc(userRef(), {
-        username,
-    });
-};
-
-const updateName = async (username) => {
-    // update username on firebase auth
-    await updateProfile(auth.currentUser, {
-        displayName: username,
-    });
-
-    // update username on firestore
-    await updateDoc(userRef(), {
-        username,
-    });
-};
-
-const updateProfilePic = async (photoURLPromise) => {
-    const photoURL = await photoURLPromise;
-
-    // update user profile picture URl on firebase auth
-    await updateProfile(auth.currentUser, {
-        photoURL,
-    });
-
-    // update user profile picture URl on firestore auth
-    await updateDoc(userRef(), {
-        photoURL,
-    });
-};
 
 const addNewPost = async (postContent) => {
     const newDocRef = await addDoc(postColRef(), {
@@ -146,12 +105,9 @@ const addComment = async (userID, postID, comment) => {
 
 // TODO: change to the actual link
 const getPostLink = (postID) =>
-    `http://localhost:3000/writeComment/${uid()}/${postID}`;
+    `https://wall4comment.web.app/writeComment/${uid()}/${postID}`;
 
 export {
-    setName,
-    updateName,
-    updateProfilePic,
     addNewPost,
     getPostList,
     deletePost,
