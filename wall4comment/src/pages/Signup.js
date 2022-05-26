@@ -66,7 +66,11 @@ function Signup() {
                 window.location.reload();
             }
         } catch (error) {
-            setMessage(error.message);
+            setMessage(
+                `- Oops, ${error.code
+                    .substring(error.code.indexOf("/") + 1)
+                    .replace(/-/g, " ")}`
+            );
         }
     };
 

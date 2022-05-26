@@ -197,7 +197,6 @@ function CreatePostBtn({ title, description, imageList }) {
                 await upload(postID, imageList);
             } else navigate("/profile");
         } catch (error) {
-            console.log(error.message);
             alert("Sorry, post could not be added");
             event.target.disabled = false;
             setUploading(false);

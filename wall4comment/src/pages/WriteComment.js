@@ -132,7 +132,6 @@ function SubmitCommentBtn({ userID, postID, comment }) {
             await addComment(userID, postID, comment);
             navigate("/thank");
         } catch (error) {
-            console.log(error.message);
             alert("Sorry, comment could not be submitted");
             event.target.disabled = false;
         }
