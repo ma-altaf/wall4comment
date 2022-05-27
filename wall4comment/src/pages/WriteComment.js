@@ -68,6 +68,9 @@ function WriteComment() {
                     )}
                     <CommentTextBox userID={userID} postID={postID} />
                 </div>
+                <div className="bg-gray-50 h-40 mt-12 w-11/12 lg:w-4/6 flex justify-center items-center">
+                    ads banner
+                </div>
             </div>
         </div>
     );
