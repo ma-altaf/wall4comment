@@ -21,7 +21,7 @@ function Hompage() {
                     </div>
                 </div>
             </div>
-            <h5 className="w-full flex items-center justify-end px-10 h-16 -mt-16">
+            <h5 className="w-full flex items-center justify-end px-1 md:px-10 h-16 -mt-16">
                 Developed by&nbsp;
                 <a
                     className="underline text-blue-500"
