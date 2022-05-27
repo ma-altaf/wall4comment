@@ -10,15 +10,14 @@ function Hompage() {
                         Send & receive truthful constructive comments
                     </h1>
                     <div className="text-justify mt-12">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum.
+                        Wall 4 Comment is a platform where users can create
+                        posts which includes text and photos. These posts can
+                        then be shared through custom links to enable the
+                        audience where the links are being posted to send
+                        anonymous comments about the content of the posts. With
+                        the anonymity provided to the audience, we aim for them
+                        to provide more honest feedbacks which they might be
+                        hesitant to provided otherwise.
                     </div>
                 </div>
             </div>
