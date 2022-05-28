@@ -8,8 +8,9 @@ Send me a comment about the website: https://wall4comment.web.app/writeComment/k
 
 ## Library used
 
--   reactJS
--   react-icons
--   react-router-dom v6
--   tailwindCSS
--   firebase (firestore, storage, auth)
+-   ReactJS
+-   React-icons
+-   React-router-dom v6
+-   TailwindCSS
+-   Framer-motion
+-   Firebase (Firestore, Storage, Auth, Hosting)
