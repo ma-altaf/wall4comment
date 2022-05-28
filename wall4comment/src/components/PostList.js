@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiCommentAdd } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../API/auth";
 import { getPostList } from "../API/firestore";
 import PostCard from "../components/PostCard";
@@ -15,6 +15,7 @@ function PostList() {
     const postRequested = useRef(false);
     const user = useContext(AuthContext);
     const [posts, setPosts] = useState([]);
+    const navigate = useNavigate();
 
     const getPosts = async () => {
         try {
@@ -98,17 +99,14 @@ function PostList() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.15 }}
+                className="flex justify-center items-center w-screen pb-4 overflow-hidden"
+                onClick={() => navigate("/createPost")}
+                title="Click to create a new post"
             >
-                <Link
-                    className="flex justify-center items-center w-screen pb-4 overflow-hidden"
-                    to={"/createPost"}
-                    title="Click to create a new post"
-                >
-                    <div className="flex items-center flex-col text-gray-400 text-3xl text-center">
-                        <BiCommentAdd className="w-56 h-56" />
-                        <h1>Create your first post !</h1>
-                    </div>
-                </Link>
+                <div className="flex items-center flex-col text-gray-400 text-3xl text-center">
+                    <BiCommentAdd className="w-56 h-56" />
+                    <h1>Create your first post !</h1>
+                </div>
             </motion.div>
         );
     }

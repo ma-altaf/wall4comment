@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { AuthContext, emailVerification } from "../API/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoadingCover from "./LoadingCover";
 import LogOutBtn from "../components/LogOutBtn";
 import EditUsername from "../components/EditUsername";
@@ -30,13 +30,10 @@ function Profile() {
                     initial={{ y: "20%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.1 }}
+                    onClick={() => navigate("/createPost")}
+                    className="px-6 py-2 bg-blue-600 text-white uppercase rounded-full cursor-pointer"
                 >
-                    <Link
-                        className="px-6 py-2 bg-blue-600 text-white uppercase rounded-full"
-                        to={"/createPost"}
-                    >
-                        New post
-                    </Link>
+                    New post
                 </motion.div>
                 {!user.emailVerified && <EmailVerificationBanner user={user} />}
             </div>
