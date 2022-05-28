@@ -54,6 +54,7 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
                     title="Click to copy link to post"
                     onClick={(event) => {
                         event.preventDefault();
+                        event.stopPropagation();
                         handleShare();
                     }}
                 >
@@ -66,10 +67,11 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
                     )}
                 </div>
                 <div
-                    className="text-lg mr-px rounded-lg hover:bg-red-500 hover:text-white p-1 duration-200"
+                    className="text-lg mr-px rounded-lg hover:bg-red-500 hover:text-white p-1 duration-200 pointer-events-auto"
                     title="Click to delete post"
                     onClick={(event) => {
                         event.preventDefault();
+                        event.stopPropagation();
                         handleDelete();
                     }}
                 >
@@ -77,7 +79,7 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
                 </div>
 
                 <div
-                    className="rounded bg-gray-100 flex justify-center items-center px-1 h-fit cursor-default pointer-events-none"
+                    className="rounded bg-gray-100 flex justify-center items-center px-1 h-fit cursor-default"
                     title="Number of comment/s on this post"
                 >
                     <BiComment className="text-lg mr-1" />

@@ -14,6 +14,7 @@ function WriteComment() {
     const [postDescription, setPostDescription] = useState({});
     const [userProfile, setUserProfile] = useState({});
     const [postImagesURL, setPostImagesURL] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!descriptionRequested.current) {
@@ -48,6 +49,12 @@ function WriteComment() {
     const setDescription = async () => {
         try {
             const postData = await getPost(userID, postID);
+            if (!postData.data()) {
+                alert(
+                    "Could not get the post requested, you will be directed to the homepage"
+                );
+                navigate("/");
+            }
             setPostDescription(postData.data());
         } catch (error) {
             console.log(error);
