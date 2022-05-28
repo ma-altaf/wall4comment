@@ -12,7 +12,7 @@ function ImageSection({ postImagesURL }) {
         }
 
         return;
-    }, []);
+    }, [postImagesURL.length]);
 
     const updateImgIndex = (step) => {
         setImgIndex((prevIndex) => {
@@ -45,15 +45,18 @@ function ImageSection({ postImagesURL }) {
             >
                 <BiChevronLeft />
             </motion.button>
-            <div className="rounded-lg overflow-hidden max-w-[70%] m-2">
+            <motion.div
+                layout
+                className="rounded-lg overflow-hidden max-w-[70%] m-2"
+            >
                 <motion.img
-                    className="w-full max-h-[80vh]"
+                    className="w-full max-h-[80vh] object-cover"
                     src={postImagesURL[imgIndex]}
                     alt=""
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
                 />
-            </div>
+            </motion.div>
 
             <motion.button
                 ref={(el) => (arrows.current[1] = el)}

@@ -49,7 +49,9 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
                 {time && timeDiffString(time.toMillis())}
             </h5>
             <div className="flex justify-center items-center text-gray-500 absolute right-2 bottom-0 mb-2">
-                <div
+                <motion.div
+                    layout
+                    transition={{ duration: 0.1 }}
                     className="text-lg rounded-lg hover:bg-blue-600 hover:text-white p-1 duration-200"
                     title="Click to copy link to post"
                     onClick={(event) => {
@@ -65,7 +67,7 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
                     ) : (
                         <BiShare />
                     )}
-                </div>
+                </motion.div>
                 <div
                     className="text-lg mr-px rounded-lg hover:bg-red-500 hover:text-white p-1 duration-200 pointer-events-auto"
                     title="Click to delete post"

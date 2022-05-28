@@ -83,6 +83,7 @@ function Signup() {
     return (
         <div className="flex w-screen h-screen justify-center items-center bg-gray-100">
             <motion.form
+                layout
                 className="p-8 bg-white rounded-lg w-4/5 md:max-w-screen-sm flex flex-col items-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
