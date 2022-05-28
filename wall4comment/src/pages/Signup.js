@@ -6,6 +6,7 @@ import {
     logIn,
     resetPasswordEmail,
 } from "../API/auth";
+import { motion } from "framer-motion";
 
 function Signup() {
     const user = useContext(AuthContext);
@@ -81,7 +82,11 @@ function Signup() {
 
     return (
         <div className="flex w-screen h-screen justify-center items-center bg-gray-100">
-            <form className="p-8 bg-white rounded-lg w-4/5 md:max-w-screen-sm flex flex-col items-center">
+            <motion.form
+                className="p-8 bg-white rounded-lg w-4/5 md:max-w-screen-sm flex flex-col items-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+            >
                 <h1 className="uppercase font-bold text-center text-3xl mb-5">
                     {isLogIn ? "Log In" : "Create Account"}
                 </h1>
@@ -193,7 +198,7 @@ function Signup() {
                         </button>
                     </h5>
                 )}
-            </form>
+            </motion.form>
         </div>
     );
 }
