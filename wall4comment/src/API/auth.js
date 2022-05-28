@@ -39,7 +39,11 @@ function AuthWrapper({ children }) {
 const createAccount = async (username, email, password) => {
     const newUser = await createUserWithEmailAndPassword(auth, email, password);
     await setName(username.trim());
-    await sendEmailVerification(newUser.user);
+    await emailVerification(newUser.user);
+};
+
+const emailVerification = async (user) => {
+    sendEmailVerification(user);
 };
 
 const logIn = async (email, password) => {
@@ -97,6 +101,7 @@ export {
     AuthWrapper,
     AuthContext,
     createAccount,
+    emailVerification,
     logIn,
     logOut,
     setName,

@@ -1,4 +1,3 @@
-import React from "react";
 import { logOut } from "../API/auth";
 import { BiExit } from "react-icons/bi";
 

@@ -67,9 +67,6 @@ function Signup() {
                 await logIn(email, password);
             } else {
                 await createAccount(username, email, password);
-                alert(
-                    "Please, verify your email addresss by clicking on the link in the email we sent you."
-                );
                 window.location.reload();
             }
         } catch (error) {

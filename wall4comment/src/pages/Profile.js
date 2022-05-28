@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { AuthContext } from "../API/auth";
+import { AuthContext, emailVerification } from "../API/auth";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingCover from "./LoadingCover";
 import LogOutBtn from "../components/LogOutBtn";
@@ -31,11 +31,28 @@ function Profile() {
                 >
                     New post
                 </Link>
+                {!user.emailVerified && <EmailVerificationBanner user={user} />}
             </div>
             <PostList />
         </div>
     ) : (
         <LoadingCover />
+    );
+}
+
+function EmailVerificationBanner({ user }) {
+    return (
+        <div className="rounded-lg p-4 w-fit mt-6 bg-yellow-100">
+            Please, verify your email by clicking on the link sent to your email
+            address. <br /> Did not receive an email to verify your
+            account?&nbsp;
+            <button
+                className="underline"
+                onClick={() => emailVerification(user)}
+            >
+                Resend verification email
+            </button>
+        </div>
     );
 }
 
