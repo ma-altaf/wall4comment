@@ -6,6 +6,7 @@ import timeDiffString from "../API/time";
 import ProfilePic from "../components/ProfilePic";
 import ImageSection from "../components/ImageSection";
 import { getPostImageList } from "../API/storage";
+import { motion } from "framer-motion";
 
 function WriteComment() {
     const { userID, postID } = useParams();
@@ -57,17 +58,29 @@ function WriteComment() {
         <div className="flex flex-col bg-gray-100 overflow-x-hidden min-h-screen p-2 pb-12">
             <div className="w-full flex flex-col items-center p-8 pb-4 overflow-x-hidden">
                 <ProfilePic image={userProfile.photoURL} rounded />
-                <p className="text-3xl pt-4">{userProfile.username}</p>
+                <motion.p
+                    initial={{ y: "20%", opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.05 }}
+                    className="text-3xl pt-4"
+                >
+                    {userProfile.username}
+                </motion.p>
             </div>
 
             <div className="w-full h-fit flex flex-col items-center overflow-x-hidden">
-                <div className="w-11/12 lg:w-4/6 rounded-lg bg-gray-200">
+                <motion.div
+                    className="w-11/12 lg:w-4/6 rounded-lg bg-gray-200"
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.1 }}
+                >
                     <PostDescription postDescription={postDescription} />
                     {postImagesURL.length !== 0 && (
                         <ImageSection postImagesURL={postImagesURL} />
                     )}
                     <CommentTextBox userID={userID} postID={postID} />
-                </div>
+                </motion.div>
                 <div className="bg-gray-50 h-40 mt-12 w-11/12 lg:w-4/6 flex justify-center items-center">
                     ads banner
                 </div>

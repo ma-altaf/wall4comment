@@ -6,6 +6,7 @@ import LogOutBtn from "../components/LogOutBtn";
 import EditUsername from "../components/EditUsername";
 import ProfileImgEditable from "../components/ProfileImgEditable";
 import PostList from "../components/PostList";
+import { motion } from "framer-motion";
 
 function Profile() {
     const navigate = useNavigate();
@@ -25,12 +26,18 @@ function Profile() {
                 <LogOutBtn />
                 <ProfileImgEditable />
                 <EditUsername />
-                <Link
-                    className="px-6 py-2 bg-blue-600 text-white uppercase rounded-full"
-                    to={"/createPost"}
+                <motion.div
+                    initial={{ y: "20%", opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.1 }}
                 >
-                    New post
-                </Link>
+                    <Link
+                        className="px-6 py-2 bg-blue-600 text-white uppercase rounded-full"
+                        to={"/createPost"}
+                    >
+                        New post
+                    </Link>
+                </motion.div>
                 {!user.emailVerified && <EmailVerificationBanner user={user} />}
             </div>
             <PostList />

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { motion } from "framer-motion";
 
 function ImageSection({ postImagesURL }) {
     const [imgIndex, setImgIndex] = useState(0);
@@ -34,30 +35,36 @@ function ImageSection({ postImagesURL }) {
 
     return (
         <div className="w-full p-2 overflow-hidden flex justify-evenly items-center text-3xl">
-            <button
+            <motion.button
                 ref={(el) => (arrows.current[0] = el)}
                 className="hover:bg-gray-100 h-fit aspect-square rounded-full p-1 z-10 duration-200"
                 title="Click to see next image"
                 onClick={() => updateImgIndex(-1)}
+                initial={{ x: 10 }}
+                animate={{ x: 0 }}
             >
                 <BiChevronLeft />
-            </button>
+            </motion.button>
             <div className="rounded-lg overflow-hidden max-w-[70%] m-2">
-                <img
+                <motion.img
                     className="w-full max-h-[80vh]"
                     src={postImagesURL[imgIndex]}
                     alt=""
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
                 />
             </div>
 
-            <button
+            <motion.button
                 ref={(el) => (arrows.current[1] = el)}
                 className="hover:bg-gray-100 h-fit aspect-square rounded-full p-1 z-10 duration-200"
                 title="Click to see previous image"
                 onClick={() => updateImgIndex(1)}
+                initial={{ x: -10 }}
+                animate={{ x: 0 }}
             >
                 <BiChevronRight />
-            </button>
+            </motion.button>
         </div>
     );
 }

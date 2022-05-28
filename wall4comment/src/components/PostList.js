@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../API/auth";
 import { getPostList } from "../API/firestore";
 import PostCard from "../components/PostCard";
+import { motion } from "framer-motion";
 
 const NUM_REQ = 6;
 
@@ -77,6 +78,7 @@ function PostList() {
                                     commentCount={commentCount}
                                     postID={postID}
                                     time={time}
+                                    index={index}
                                 />
                             );
                         }
@@ -90,20 +92,26 @@ function PostList() {
                 </div>
             </div>
         );
+    } else {
+        return (
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.15 }}
+            >
+                <Link
+                    className="flex justify-center items-center w-screen pb-4 overflow-hidden"
+                    to={"/createPost"}
+                    title="Click to create a new post"
+                >
+                    <div className="flex items-center flex-col text-gray-400 text-3xl text-center">
+                        <BiCommentAdd className="w-56 h-56" />
+                        <h1>Create your first post !</h1>
+                    </div>
+                </Link>
+            </motion.div>
+        );
     }
-
-    return (
-        <Link
-            className="flex justify-center items-center w-screen pb-4 overflow-hidden"
-            to={"/createPost"}
-            title="Click to create a new post"
-        >
-            <div className="flex items-center flex-col text-gray-400 text-3xl text-center">
-                <BiCommentAdd className="w-56 h-56" />
-                <h1>Create your first post !</h1>
-            </div>
-        </Link>
-    );
 }
 
 export default PostList;

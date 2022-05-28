@@ -8,6 +8,7 @@ import { BiCommentX } from "react-icons/bi";
 import timeDiffString from "../API/time";
 import { getPostImageList } from "../API/storage";
 import ImageSection from "../components/ImageSection";
+import { motion } from "framer-motion";
 
 const NUM_REQ = 5;
 
@@ -93,7 +94,13 @@ function PostView() {
         <div className="bg-gray-100 w-full overflow-x-hidden min-h-screen p-2">
             <header className="flex text-3xl top-0 w-full">
                 <BackBtn />
-                <h1 className="w-full text-center uppercase">Post View</h1>
+                <motion.h1
+                    initial={{ y: "-150%" }}
+                    animate={{ y: 0 }}
+                    className="w-full text-center uppercase"
+                >
+                    Post View
+                </motion.h1>
             </header>
             <PostDescription
                 postDescription={postDescription}
@@ -112,16 +119,22 @@ function PostView() {
                                 comment={comment}
                                 key={commentID}
                                 time={time}
+                                index={index}
                             />
                         );
                     })
                 ) : (
-                    <div className="flex justify-center items-center w-screen p-4 overflow-hidden">
+                    <motion.div
+                        className="flex justify-center items-center w-screen p-4 overflow-hidden"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.05 }}
+                    >
                         <div className="flex items-center flex-col text-gray-400 text-3xl text-center">
                             <BiCommentX className="w-56 h-56" />
                             <h1>No comments received yet</h1>
                         </div>
-                    </div>
+                    </motion.div>
                 )}
                 <div
                     className="bg-gray-50 h-40 w-11/12 lg:w-4/6 p-2 m-12 mb-8 flex justify-center items-center"
@@ -141,7 +154,12 @@ function PostDescription({ postDescription, postImagesURL }) {
     return (
         postDescription && (
             <div className="w-full h-fit flex flex-col items-center">
-                <div className="rounded-lg m-4 shadow-sm w-11/12 lg:w-4/6 bg-gray-200 overflow-hidden">
+                <motion.div
+                    className="rounded-lg m-4 shadow-sm w-11/12 lg:w-4/6 bg-gray-200 overflow-hidden"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.05 }}
+                >
                     <div className="bg-white p-4 rounded-lg">
                         <h1 className="text-3xl font-semibold">{title}</h1>
                         {description && (
@@ -157,20 +175,25 @@ function PostDescription({ postDescription, postImagesURL }) {
                     {postImagesURL.length !== 0 && (
                         <ImageSection postImagesURL={postImagesURL} />
                     )}
-                </div>
+                </motion.div>
             </div>
         )
     );
 }
 
-function PostComment({ comment, time }) {
+function PostComment({ comment, time, index }) {
     return (
-        <div className="bg-white rounded-lg m-2 p-4 shadow-sm w-11/12 lg:w-4/6 text-lg">
+        <motion.div
+            transition={{ delay: index * 0.05 }}
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="bg-white rounded-lg m-2 p-4 shadow-sm w-11/12 lg:w-4/6 text-lg"
+        >
             <p>{comment}</p>
             <h5 className="text-right -mb-2 text-gray-400 text-sm">
                 {time && timeDiffString(time.toMillis())}
             </h5>
-        </div>
+        </motion.div>
     );
 }
 

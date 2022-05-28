@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { BiEdit } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { AuthContext, updateName } from "../API/auth";
+import { motion } from "framer-motion";
 
 function EditUsername() {
     const user = useContext(AuthContext);
@@ -21,7 +22,13 @@ function EditUsername() {
         }
     };
     return (
-        <div className="flex items-end m-6" title="Click to change username">
+        <motion.div
+            className="flex items-end m-6"
+            title="Click to change username"
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.05 }}
+        >
             <input
                 size={username.length}
                 id="username"
@@ -39,21 +46,27 @@ function EditUsername() {
                 }}
             ></input>
             {username !== defaultUser ? (
-                <button
+                <motion.button
                     className="bg-blue-600 rounded-lg m-1 p-1 aspect-square"
                     title="Click to submit change"
                     onClick={() => {
                         changeName();
                     }}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
                 >
                     <MdDone className="text-white" />
-                </button>
+                </motion.button>
             ) : (
-                <label htmlFor="username">
+                <motion.label
+                    htmlFor="username"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                >
                     <BiEdit className="text-3xl text-gray-400 cursor-pointer" />
-                </label>
+                </motion.label>
             )}
-        </div>
+        </motion.div>
     );
 }
 

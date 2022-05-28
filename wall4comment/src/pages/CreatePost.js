@@ -4,6 +4,7 @@ import { addNewPost } from "../API/firestore";
 import { BiImageAdd, BiX } from "react-icons/bi";
 import BackBtn from "../components/BackBtn";
 import { useUploadPostImg } from "../API/storage";
+import { motion } from "framer-motion";
 
 function CreatePost() {
     const [title, setTitle] = useState("");
@@ -14,9 +15,13 @@ function CreatePost() {
         <div className="overflow-x-hidden min-h-screen p-2">
             <header className="flex text-3xl sticky top-0">
                 <BackBtn />
-                <h1 className="w-full text-center uppercase">
+                <motion.h1
+                    className="w-full text-center uppercase"
+                    initial={{ y: "-150%" }}
+                    animate={{ y: 0 }}
+                >
                     Creating new post
-                </h1>
+                </motion.h1>
             </header>
             <div className="flex flex-col my-4 lg:my-14 md:mx-14 lg:mx-28">
                 <TitleInput title={title} setTitle={setTitle} />
@@ -31,7 +36,14 @@ function CreatePost() {
                     description={description}
                     imageList={imageList}
                 />
-                <h5 className="mt-4">*Title is required</h5>
+                <motion.h5
+                    className="mt-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.15 }}
+                >
+                    *Title is required
+                </motion.h5>
             </div>
         </div>
     );
@@ -39,7 +51,11 @@ function CreatePost() {
 
 function TitleInput({ title, setTitle }) {
     return (
-        <div className="h-fit text-lg my-2">
+        <motion.div
+            className="h-fit text-lg my-2"
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+        >
             <label htmlFor="title" className="m-1 mr-8 uppercase font-bold">
                 Title*
             </label>
@@ -50,7 +66,7 @@ function TitleInput({ title, setTitle }) {
                 onChange={(event) => setTitle(event.target.value)}
                 className="rounded-lg border-2 border-black w-full md:w-3/5 lg:w-3/6 p-2 focus:border-blue-600 outline-none duration-100"
             ></input>
-        </div>
+        </motion.div>
     );
 }
 
@@ -61,7 +77,12 @@ function DescriptionInput({
     setImageList,
 }) {
     return (
-        <div className="flex flex-col h-fit text-lg my-2">
+        <motion.div
+            className="flex flex-col h-fit text-lg my-2"
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.05 }}
+        >
             <label htmlFor="title" className="m-1 mr-8 uppercase font-bold">
                 Description
             </label>
@@ -79,7 +100,7 @@ function DescriptionInput({
                     setImageList={setImageList}
                 />
             </div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -152,7 +173,11 @@ function ImageHolder({ index, image, setImageList }) {
     };
 
     return (
-        <div
+        <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: index * 0.1 }}
+            exit={{ opacity: 0 }}
             className="rounded-lg overflow-hidden w-fit h-fit relative hover:cursor-pointer"
             onClick={removeImg}
         >
@@ -167,7 +192,7 @@ function ImageHolder({ index, image, setImageList }) {
                 src={URL.createObjectURL(image)}
                 alt={image.name}
             />
-        </div>
+        </motion.div>
     );
 }
 
@@ -204,10 +229,13 @@ function CreatePostBtn({ title, description, imageList }) {
     };
 
     return (
-        <button
+        <motion.button
             className="mt-4 px-6 py-2 rounded-full bg-blue-600 text-white w-fit uppercase overflow-hidden relative duration-200"
             onClick={createPost}
             style={uploading ? { width: "100%" } : {}}
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
         >
             <span
                 className="bg-black opacity-25 h-full absolute top-0 left-0 duration-100"
@@ -225,7 +253,7 @@ function CreatePostBtn({ title, description, imageList }) {
             ) : (
                 <p>Create Post</p>
             )}
-        </button>
+        </motion.button>
     );
 }
 
