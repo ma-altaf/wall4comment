@@ -22,9 +22,9 @@ export const db = getFirestore(app);
 
 enableIndexedDbPersistence(db).catch((err) => {
     if (err.code === "failed-precondition") {
-        alert("caching could not be enabled");
+        console.warn("caching could not be enabled");
     } else if (err.code === "unimplemented") {
-        alert("Browser does not support caching");
+        console.warn("Browser does not support caching");
     }
 });
 
