@@ -17,7 +17,7 @@ function Hompage() {
                         anonymous comments about the content of the posts. With
                         the anonymity provided to the audience, we aim for them
                         to provide more honest feedbacks which they might be
-                        hesitant to provided otherwise.
+                        hesitant to provide otherwise.
                     </div>
                 </div>
             </div>
