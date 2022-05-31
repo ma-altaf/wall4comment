@@ -1,12 +1,14 @@
 import Navbar from "../components/Navbar";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 function Hompage() {
+    const navigate = useNavigate();
     return (
         <>
             <Navbar />
             <div className="flex w-full justify-center items-center h-screen -mt-16">
-                <div className="w-full md:w-3/4 m-5 p-5">
+                <div className="w-full md:w-3/4 m-5 p-5 flex flex-col items-center">
                     <motion.h1
                         className="text-5xl text-center"
                         initial={{ opacity: 0, y: 10 }}
@@ -15,7 +17,7 @@ function Hompage() {
                         Send & receive truthful constructive comments
                     </motion.h1>
                     <motion.div
-                        className="text-justify mt-12"
+                        className="text-justify my-12"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.05 }}
@@ -29,13 +31,22 @@ function Hompage() {
                         to provide more honest feedbacks which they might be
                         hesitant to provide otherwise.
                     </motion.div>
+                    <motion.button
+                        className="bg-blue-600 w-fit h-fit px-5 py-2 rounded-lg uppercase text-white"
+                        onClick={() => navigate("/signup")}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                    >
+                        Get Started
+                    </motion.button>
                 </div>
             </div>
-            <motion.h5
+            <motion.p
                 className="w-full flex items-center justify-end px-4 md:px-10 h-16 -mt-16"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.1 }}
+                transition={{ delay: 0.15 }}
             >
                 Developed by&nbsp;
                 <a
@@ -46,7 +57,7 @@ function Hompage() {
                 >
                     A.Altaf
                 </a>
-            </motion.h5>
+            </motion.p>
         </>
     );
 }

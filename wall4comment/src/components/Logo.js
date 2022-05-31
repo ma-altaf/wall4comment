@@ -12,7 +12,7 @@ function Logo({ shrink = false }) {
                         : "-translate-y-6 translate-x-8 text-3xl"
                 }`}
             >
-                wall
+                {window.innerWidth > 500 ? "wall" : "W"}
             </h1>
             <h1
                 className={`font-extrabold text-blue-600 lue text-opacity-40 ${
@@ -28,7 +28,7 @@ function Logo({ shrink = false }) {
                         : "translate-y-8 -translate-x-6 text-3xl"
                 }`}
             >
-                comment
+                {window.innerWidth > 500 ? "comment" : "C"}
             </h1>
         </div>
     );
