@@ -175,14 +175,20 @@ function DescriptionInput({
 
 function ImageSection({ imageList, setImageList, imageRefsList }) {
     return (
-        <div className="p-5 overflow-hidden grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <ImageGallery
-                imageList={imageList}
-                imageRefsList={imageRefsList}
-                setImageList={setImageList}
-            />
-            <AddImageBtn setImageList={setImageList} />
-        </div>
+        <>
+            <h5 className="px-5">
+                *NOTE: images on server are deleted directly without clicking on
+                the update post button
+            </h5>
+            <div className="p-5 overflow-hidden grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <ImageGallery
+                    imageList={imageList}
+                    imageRefsList={imageRefsList}
+                    setImageList={setImageList}
+                />
+                <AddImageBtn setImageList={setImageList} />
+            </div>
+        </>
     );
 }
 
@@ -242,6 +248,14 @@ function ImageGallery({ imageList, setImageList, imageRefsList }) {
 function ImageHolder({ index, image, setImageList, imageRefsList }) {
     const removeImg = async () => {
         if (typeof image === "string") {
+            if (
+                !window.confirm(
+                    "Image will be deleted from server, even without clicking the update post button\n Are you sure you want to remove the image"
+                )
+            ) {
+                return;
+            }
+
             try {
                 await deletePostImage(imageRefsList.current[index]);
                 imageRefsList.current.splice(index, 1);
