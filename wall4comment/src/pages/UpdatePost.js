@@ -240,11 +240,12 @@ function ImageGallery({ imageList, setImageList, imageRefsList }) {
 }
 
 function ImageHolder({ index, image, setImageList, imageRefsList }) {
-    const removeImg = () => {
+    const removeImg = async () => {
         if (typeof image === "string") {
             try {
-                deletePostImage(imageRefsList.current[index]);
-                imageRefsList.splice(index, 1);
+                await deletePostImage(imageRefsList.current[index]);
+                imageRefsList.current.splice(index, 1);
+                console.log(imageRefsList);
             } catch (error) {
                 alert("image could not be removed");
             }

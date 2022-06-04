@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../API/auth";
 import { getCommentsList, getPost } from "../API/firestore";
 import LoadingCover from "../components/LoadingCover";
@@ -151,6 +151,8 @@ function PostView() {
 
 function PostDescription({ postDescription, postImagesURL }) {
     const { postID, title, description, time } = postDescription;
+    const navigate = useNavigate();
+
     return (
         postDescription && (
             <div className="w-full h-fit flex flex-col items-center">
@@ -161,16 +163,16 @@ function PostDescription({ postDescription, postImagesURL }) {
                     transition={{ delay: 0.05 }}
                 >
                     <div className="bg-white p-4 rounded-lg">
-                        <div className="w-full text-right -mt-2 -mr-2">
-                            <Link
-                                to={`/updatePost/${postID}`}
-                                className="w-fit"
-                            >
-                                <BiEditAlt />
-                            </Link>
-                        </div>
-
-                        <h1 className="text-3xl font-semibold">{title}</h1>
+                        <h1 className="text-3xl font-semibold flex justify-between items-center">
+                            {title}
+                            <BiEditAlt
+                                title="Click to edit post"
+                                className="rounded-lg hover:bg-blue-500 hover:text-white p-1 duration-200"
+                                onClick={() =>
+                                    navigate(`/updatePost/${postID}`)
+                                }
+                            />
+                        </h1>
                         {description && (
                             <>
                                 <div className="w-full h-px bg-gray-300 my-2 rounded-full"></div>

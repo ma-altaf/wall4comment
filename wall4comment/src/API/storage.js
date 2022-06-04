@@ -6,11 +6,13 @@ import {
     deleteObject,
     listAll,
     updateMetadata,
+    getMetadata,
 } from "firebase/storage";
 import { useState } from "react";
 import { auth } from "./auth";
 import app from "./firebase";
 import { updateProfilePic } from "./auth";
+import { v4 as uuidV4 } from "uuid";
 
 const storage = getStorage(app);
 
@@ -60,9 +62,13 @@ const useUploadPostImg = () => {
             if (image instanceof File) {
                 const imgRef = ref(
                     storage,
-                    `users/${uid}/${postID}/image-${index}`
+                    `users/${uid}/${postID}/${uuidV4()}`
                 );
-                const uploadTask = uploadBytesResumable(imgRef, image);
+                const uploadTask = uploadBytesResumable(imgRef, image, {
+                    customMetadata: {
+                        index,
+                    },
+                });
 
                 uploadTask.on(
                     "state_changed",
@@ -90,8 +96,10 @@ const useUploadPostImg = () => {
                     }
                 );
             } else {
-                await updateMetadata(image, {
-                    name: `image-${index}`,
+                updateMetadata(image, {
+                    customMetadata: {
+                        index,
+                    },
                 });
                 setProgress(
                     Math.round((++NumImgUploaded / images.length) * 100)
@@ -123,9 +131,27 @@ const getPostImageURLList = async (userID, postID) => {
 
 const getPostImageRefs = async (userID, postID) => {
     const postRef = ref(storage, `users/${userID}/${postID}`);
-    return (await listAll(postRef)).items.sort(
-        (item1, item2) => item1.name > item2.name
+    const imagesRef = (await listAll(postRef)).items;
+    const imageRefIndex = await Promise.all(
+        imagesRef.map(
+            async (imgRef) =>
+                (
+                    await getMetadata(imgRef)
+                ).customMetadata["index"]
+        )
     );
+
+    return imagesRef
+        .map((imgRef, index) => {
+            return {
+                imgRef,
+                order: Number(imageRefIndex[index]),
+            };
+        })
+        .sort((item1, item2) => {
+            return item1.order - item2.order;
+        })
+        .map((item) => item.imgRef);
 };
 
 export {
