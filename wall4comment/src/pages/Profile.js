@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { AuthContext, emailVerification } from "../API/auth";
 import { useNavigate } from "react-router-dom";
-import LoadingCover from "./LoadingCover";
+import LoadingCover from "../components/LoadingCover";
 import LogOutBtn from "../components/LogOutBtn";
 import EditUsername from "../components/EditUsername";
 import ProfileImgEditable from "../components/ProfileImgEditable";

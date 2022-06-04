@@ -7,6 +7,7 @@ import PostView from "./pages/PostView";
 import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
 import Thank from "./pages/Thank";
+import UpdatePost from "./pages/UpdatePost";
 import WriteComment from "./pages/WriteComment";
 
 function App() {
@@ -19,6 +20,10 @@ function App() {
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/postView/:postID" element={<PostView />} />
                     <Route path="/createPost" element={<CreatePost />} />
+                    <Route
+                        path="/updatePost/:postID"
+                        element={<UpdatePost />}
+                    />
                     <Route path="/thank" element={<Thank />} />
                     <Route
                         path="/writeComment/:userID/:postID"

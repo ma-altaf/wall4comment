@@ -45,6 +45,13 @@ const addNewPost = async (postContent) => {
     return newDocRef.id;
 };
 
+const updatePost = async (postID, postContent) => {
+    const postRef = doc(db, `users/${uid()}/posts`, postID);
+    await updateDoc(postRef, {
+        ...postContent,
+    });
+};
+
 const getPostList = async (num, paginateDoc) => {
     let options = [];
     options.push(orderBy("time", "desc"));
@@ -109,6 +116,7 @@ const getPostLink = (postID) =>
 
 export {
     addNewPost,
+    updatePost,
     getPostList,
     deletePost,
     getPost,

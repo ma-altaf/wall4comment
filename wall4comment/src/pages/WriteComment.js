@@ -5,7 +5,7 @@ import { addComment, getPost, getProfile } from "../API/firestore";
 import timeDiffString from "../API/time";
 import ProfilePic from "../components/ProfilePic";
 import ImageSection from "../components/ImageSection";
-import { getPostImageList } from "../API/storage";
+import { getPostImageURLList } from "../API/storage";
 import { motion } from "framer-motion";
 
 function WriteComment() {
@@ -29,7 +29,7 @@ function WriteComment() {
 
     const setImages = async () => {
         try {
-            const postImageList = await getPostImageList(userID, postID);
+            const postImageList = await getPostImageURLList(userID, postID);
             setPostImagesURL(postImageList);
         } catch (error) {
             console.log(error);
@@ -51,7 +51,7 @@ function WriteComment() {
             const postData = await getPost(userID, postID);
             if (!postData.data()) {
                 alert(
-                    "Could not get the post requested, you will be directed to the homepage"
+                    "Could not get the post requested, you will be redirected to the homepage"
                 );
                 navigate("/");
             }

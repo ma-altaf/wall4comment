@@ -5,6 +5,7 @@ import {
     uploadBytesResumable,
     deleteObject,
     listAll,
+    updateMetadata,
 } from "firebase/storage";
 import { useState } from "react";
 import { auth } from "./auth";
@@ -55,35 +56,47 @@ const useUploadPostImg = () => {
 
     const upload = async (postID, images) => {
         let NumImgUploaded = 0;
-        images.forEach((image, index) => {
-            const imgRef = ref(
-                storage,
-                `users/${uid}/${postID}/image-${index}`
-            );
-            const uploadTask = uploadBytesResumable(imgRef, image);
+        images.forEach(async (image, index) => {
+            if (image instanceof File) {
+                const imgRef = ref(
+                    storage,
+                    `users/${uid}/${postID}/image-${index}`
+                );
+                const uploadTask = uploadBytesResumable(imgRef, image);
 
-            uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                    console.log(
-                        `image ${index}`,
-                        Math.round(
-                            (snapshot.bytesTransferred / snapshot.totalBytes) *
-                                100
-                        )
-                    );
-                },
-                (error) => {
-                    alert(`Sorry, image ${index + 1} could not be uploaded!`);
-                    // TODO: remove firestore and storage if an image could not be uploaded
-                    console.log(error);
-                },
-                () => {
-                    setProgress(
-                        Math.round((++NumImgUploaded / images.length) * 100)
-                    );
-                }
-            );
+                uploadTask.on(
+                    "state_changed",
+                    (snapshot) => {
+                        console.log(
+                            `image ${index}`,
+                            Math.round(
+                                (snapshot.bytesTransferred /
+                                    snapshot.totalBytes) *
+                                    100
+                            )
+                        );
+                    },
+                    (error) => {
+                        alert(
+                            `Sorry, image ${index + 1} could not be uploaded!`
+                        );
+                        // TODO: remove firestore and storage if an image could not be uploaded
+                        console.log(error);
+                    },
+                    () => {
+                        setProgress(
+                            Math.round((++NumImgUploaded / images.length) * 100)
+                        );
+                    }
+                );
+            } else {
+                await updateMetadata(image, {
+                    name: `image-${index}`,
+                });
+                setProgress(
+                    Math.round((++NumImgUploaded / images.length) * 100)
+                );
+            }
         });
     };
 
@@ -96,20 +109,30 @@ const deletePostImages = async (postID) => {
     (await listAll(postRef)).items.forEach((imgRef) => deleteObject(imgRef));
 };
 
-const getPostImageList = async (userID, postID) => {
-    const postRef = ref(storage, `users/${userID}/${postID}`);
-    const imgRefs = (await listAll(postRef)).items;
+const deletePostImage = async (imageRef) => {
+    deleteObject(imageRef);
+};
+
+const getPostImageURLList = async (userID, postID) => {
+    const imgRefs = await getPostImageRefs(userID, postID);
 
     return Promise.all(
-        imgRefs
-            .sort((item1, item2) => item1.name > item2.name)
-            .map(async (imgRef) => await getDownloadURL(imgRef))
+        imgRefs.map(async (imgRef) => await getDownloadURL(imgRef))
+    );
+};
+
+const getPostImageRefs = async (userID, postID) => {
+    const postRef = ref(storage, `users/${userID}/${postID}`);
+    return (await listAll(postRef)).items.sort(
+        (item1, item2) => item1.name > item2.name
     );
 };
 
 export {
     useUploadProfilePic,
     useUploadPostImg,
+    deletePostImage,
     deletePostImages,
-    getPostImageList,
+    getPostImageURLList,
+    getPostImageRefs,
 };

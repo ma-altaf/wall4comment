@@ -1,12 +1,12 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../API/auth";
 import { getCommentsList, getPost } from "../API/firestore";
-import LoadingCover from "./LoadingCover";
+import LoadingCover from "../components/LoadingCover";
 import BackBtn from "../components/BackBtn";
-import { BiCommentX } from "react-icons/bi";
+import { BiCommentX, BiEditAlt } from "react-icons/bi";
 import timeDiffString from "../API/time";
-import { getPostImageList } from "../API/storage";
+import { getPostImageURLList } from "../API/storage";
 import ImageSection from "../components/ImageSection";
 import { motion } from "framer-motion";
 
@@ -63,7 +63,7 @@ function PostView() {
 
     const setImages = async () => {
         try {
-            const postImageList = await getPostImageList(user.uid, postID);
+            const postImageList = await getPostImageURLList(user.uid, postID);
             setPostImagesURL(postImageList);
         } catch (error) {
             console.log(error);
@@ -150,7 +150,7 @@ function PostView() {
 }
 
 function PostDescription({ postDescription, postImagesURL }) {
-    const { title, description, time } = postDescription;
+    const { postID, title, description, time } = postDescription;
     return (
         postDescription && (
             <div className="w-full h-fit flex flex-col items-center">
@@ -161,6 +161,15 @@ function PostDescription({ postDescription, postImagesURL }) {
                     transition={{ delay: 0.05 }}
                 >
                     <div className="bg-white p-4 rounded-lg">
+                        <div className="w-full text-right -mt-2 -mr-2">
+                            <Link
+                                to={`/updatePost/${postID}`}
+                                className="w-fit"
+                            >
+                                <BiEditAlt />
+                            </Link>
+                        </div>
+
                         <h1 className="text-3xl font-semibold">{title}</h1>
                         {description && (
                             <>
