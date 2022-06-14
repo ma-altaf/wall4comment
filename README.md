@@ -6,7 +6,7 @@ Check the live website: https://wall4comment.web.app/
 
 Send me a comment about the website: https://wall4comment.web.app/writeComment/kXNGnhVkPvPwQr2DlQJTEqSweO62/vCQJAonzKgunS5Fb7mSh
 
-If you want to test the website but not create an account use this account:  
+If you want to test the website without creating an account use this one:  
 Email: test@email.com  
 Password: test123
 
