@@ -4,22 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { deletePost, getPostLink } from "../API/firestore";
 import { deletePostImages } from "../API/storage";
 import timeDiffString from "../API/time";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
     const postRef = useRef();
     const [isCopied, setIsCopied] = useState(false);
+    const [isDeletePrompt, setIsDeletePrompt] = useState(false);
     const navigate = useNavigate();
 
     const handleDelete = async () => {
-        if (window.confirm(`Confirm deleting post.\nTitle: ${title}`)) {
-            try {
-                await deletePostImages(postID);
-                await deletePost(postID);
-                postRef.current.style.display = "none";
-            } catch (error) {
-                alert("post could not be deleted");
-            }
+        try {
+            await deletePostImages(postID);
+            await deletePost(postID);
+            postRef.current.style.display = "none";
+        } catch (error) {
+            alert("post could not be deleted");
         }
     };
 
@@ -29,12 +28,12 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
         setIsCopied(true);
         setTimeout(() => {
             setIsCopied(false);
-        }, 1000);
+        }, 700);
     };
 
     return (
         <motion.div
-            className="m-2 pb-10 p-4 h-fit rounded-lg shadow-md bg-white relative hover:shadow-lg duration-200 cursor-pointer"
+            className="m-2 pb-10 p-4 h-fit rounded-lg shadow-md bg-white relative hover:shadow-lg duration-200 cursor-pointer overflow-hidden"
             transition={{ delay: index * 0.05 }}
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -60,13 +59,7 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
                         handleShare();
                     }}
                 >
-                    {isCopied ? (
-                        <p className="text-sm uppercase rounded-lg py-1 px-2 -m-1 text-white bg-blue-600">
-                            Copied!
-                        </p>
-                    ) : (
-                        <BiShare />
-                    )}
+                    <BiShare />
                 </motion.div>
                 <div
                     className="text-lg mr-px rounded-lg hover:bg-red-500 hover:text-white p-1 duration-200 pointer-events-auto"
@@ -74,7 +67,7 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
                     onClick={(event) => {
                         event.preventDefault();
                         event.stopPropagation();
-                        handleDelete();
+                        setIsDeletePrompt(true);
                     }}
                 >
                     <BiTrash />
@@ -88,6 +81,60 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
                     <p className="text-xl">{commentCount}</p>
                 </div>
             </div>
+            <AnimatePresence>
+                {isCopied && (
+                    <motion.div
+                        className="overflow-hidden w-full flex flex-col items-center justify-center bg-blue-500 text-white absolute bottom-0 left-0"
+                        onClick={(e) => e.stopPropagation()}
+                        initial={{ height: 0 }}
+                        animate={{ height: "100%" }}
+                        exit={{ height: 0, top: 0 }}
+                        transition={{ easings: "easeInOut", duration: 0.4 }}
+                        title=""
+                    >
+                        <h1 className="font-semibold text-2xl">
+                            Link copied to clipboard
+                        </h1>
+                    </motion.div>
+                )}
+                {isDeletePrompt && (
+                    <motion.div
+                        className="overflow-hidden w-full flex flex-col items-center justify-center bg-red-500 text-white absolute bottom-0 left-0"
+                        onClick={(e) => e.stopPropagation()}
+                        initial={{ height: 0 }}
+                        animate={{ height: "100%" }}
+                        exit={{ height: 0, top: 0 }}
+                        transition={{ easings: "easeInOut", duration: 0.4 }}
+                        title=""
+                    >
+                        <h1 className="font-semibold text-2xl">
+                            Confirm Deletion
+                        </h1>
+                        <div className="flex items-center justify-center p-1">
+                            <button
+                                className="rounded px-4 py-1 mx-1"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsDeletePrompt(false);
+                                }}
+                                title="Cancel deletion"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="rounded-lg px-4 py-1 mx-1 bg-red-600"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDelete();
+                                }}
+                                title="Confirm deletion"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 }
