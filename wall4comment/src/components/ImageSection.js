@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 function ImageSection({ postImagesURL }) {
     const [imgIndex, setImgIndex] = useState(0);
     const arrows = useRef([]);
+    const swipeToLeft = useRef(true);
 
     useEffect(() => {
         if (postImagesURL.length === 1) {
@@ -15,21 +16,23 @@ function ImageSection({ postImagesURL }) {
     }, [postImagesURL.length]);
 
     const updateImgIndex = (step) => {
+        swipeToLeft.current = step > 0;
+
         setImgIndex((prevIndex) => {
             // update previous index to the new index
-            prevIndex += step;
+            const newIndex = prevIndex + step;
 
             // new index below 0, loop around to last image
-            if (prevIndex < 0) {
+            if (newIndex < 0) {
                 return postImagesURL.length - 1;
             }
 
             // new index above/equal to the number of images, loop around to first image
-            if (prevIndex >= postImagesURL.length) {
+            if (newIndex >= postImagesURL.length) {
                 return 0;
             }
 
-            setImgIndex(prevIndex);
+            return newIndex;
         });
     };
 
@@ -45,17 +48,34 @@ function ImageSection({ postImagesURL }) {
             >
                 <BiChevronLeft />
             </motion.button>
-            <motion.div
-                layout
-                className="rounded-lg overflow-hidden max-w-[70%] m-2"
-            >
-                <motion.img
-                    className="w-full max-h-[80vh] object-cover"
-                    src={postImagesURL[imgIndex]}
-                    alt=""
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                />
+
+            <motion.div className="rounded-lg  max-w-[70%] m-2 overflow-hidden grid grid-cols-1 ">
+                <AnimatePresence initial={false}>
+                    <motion.img
+                        key={postImagesURL[imgIndex]}
+                        className="w-full max-h[80vh] object-cover"
+                        style={{
+                            gridRowStart: 1,
+                            gridColumnStart: 1,
+                        }}
+                        src={postImagesURL[imgIndex]}
+                        initial={{
+                            clipPath: swipeToLeft.current
+                                ? "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)"
+                                : "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
+                        }}
+                        animate={{
+                            clipPath:
+                                "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+                        }}
+                        exit={{
+                            clipPath: swipeToLeft.current
+                                ? "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)"
+                                : "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)",
+                        }}
+                        transition={{ duration: 1 }}
+                    />
+                </AnimatePresence>
             </motion.div>
 
             <motion.button
