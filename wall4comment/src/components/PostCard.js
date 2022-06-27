@@ -54,9 +54,9 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
                     className="text-lg rounded-lg hover:bg-blue-600 hover:text-white p-1 duration-200"
                     title="Click to copy link to post"
                     onClick={(event) => {
-                        event.preventDefault();
                         event.stopPropagation();
-                        handleShare();
+                        event.currentTarget.blur();
+                        handleShare(event);
                     }}
                 >
                     <BiShare />
@@ -65,7 +65,6 @@ function PostCard({ title, commentCount = 0, postID, time, index = 0 }) {
                     className="text-lg mr-px rounded-lg hover:bg-red-500 hover:text-white p-1 duration-200 pointer-events-auto"
                     title="Click to delete post"
                     onClick={(event) => {
-                        event.preventDefault();
                         event.stopPropagation();
                         setIsDeletePrompt(true);
                     }}
