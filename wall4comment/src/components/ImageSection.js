@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { startTransition, useEffect, useRef, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { AnimatePresence, motion } from "framer-motion";
 
 function ImageSection({ postImagesURL }) {
     const [imgIndex, setImgIndex] = useState(0);
     const arrows = useRef([]);
-    const swipeToLeft = useRef(true);
+    const [swipeToLeft, setSwipeToLeft] = useState(true);
 
     useEffect(() => {
         if (postImagesURL.length === 1) {
@@ -16,23 +16,26 @@ function ImageSection({ postImagesURL }) {
     }, [postImagesURL.length]);
 
     const updateImgIndex = (step) => {
-        swipeToLeft.current = step > 0;
+        setSwipeToLeft(step > 0);
 
-        setImgIndex((prevIndex) => {
-            // update previous index to the new index
-            const newIndex = prevIndex + step;
+        // ensure the swipe direction is evaluated before the image changes
+        startTransition(() => {
+            setImgIndex((prevIndex) => {
+                // update previous index to the new index
+                const newIndex = prevIndex + step;
 
-            // new index below 0, loop around to last image
-            if (newIndex < 0) {
-                return postImagesURL.length - 1;
-            }
+                // new index below 0, loop around to last image
+                if (newIndex < 0) {
+                    return postImagesURL.length - 1;
+                }
 
-            // new index above/equal to the number of images, loop around to first image
-            if (newIndex >= postImagesURL.length) {
-                return 0;
-            }
+                // new index above/equal to the number of images, loop around to first image
+                if (newIndex >= postImagesURL.length) {
+                    return 0;
+                }
 
-            return newIndex;
+                return newIndex;
+            });
         });
     };
 
@@ -49,7 +52,7 @@ function ImageSection({ postImagesURL }) {
                 <BiChevronLeft />
             </motion.button>
 
-            <motion.div className="rounded-lg  max-w-[70%] m-2 overflow-hidden grid grid-cols-1 ">
+            <motion.div className="rounded-lg  max-w-[70%] m-2 overflow-hidden grid grid-cols-1 relative">
                 <AnimatePresence initial={false}>
                     <motion.img
                         key={postImagesURL[imgIndex]}
@@ -60,7 +63,7 @@ function ImageSection({ postImagesURL }) {
                         }}
                         src={postImagesURL[imgIndex]}
                         initial={{
-                            clipPath: swipeToLeft.current
+                            clipPath: swipeToLeft
                                 ? "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)"
                                 : "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
                         }}
@@ -69,13 +72,18 @@ function ImageSection({ postImagesURL }) {
                                 "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
                         }}
                         exit={{
-                            clipPath: swipeToLeft.current
+                            clipPath: swipeToLeft
                                 ? "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)"
                                 : "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)",
                         }}
                         transition={{ duration: 1 }}
                     />
                 </AnimatePresence>
+                {postImagesURL.length > 1 && (
+                    <p className="absolute bottom-0 right-0 p-2 mix-blend-difference text-white text-lg md:text-3xl">
+                        {imgIndex + 1}/{postImagesURL.length}
+                    </p>
+                )}
             </motion.div>
 
             <motion.button
