@@ -17,7 +17,7 @@ Email: test@email.com
 Password: test123
 
 > -   No need to verify email since I bypassed it on firestore rules
-> -   use an incognito tab to submit a comment(since a user cannot usually send comment to their own post)
+> -   Use an incognito tab to submit a comment(since a user cannot usually send comment to their own post)
 
 ## Library used
 
