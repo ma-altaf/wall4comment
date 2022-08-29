@@ -6,7 +6,7 @@ The name was originally inspired by the video game term **“4th Wall”** which
 
 In order to keep this idea of **anonymity** while also not being so direct I came up with the name “Wall 4 Comment” which can be seen as either **“Wall For Comment”** as in a wall where people can stick comments, and no one will know who did it and/or a play on the term "4th wall".
 
-That was creative, I know (trying to "break the 4th wall" with you, yes you the reader).
+That was creative, I know.
 
 Check the live website: https://wall4comment.web.app/
 
@@ -18,6 +18,8 @@ Password: test123
 
 > -   No need to verify email since I bypassed it on firestore rules
 > -   Use an incognito tab to submit a comment(since a user cannot usually send comment to their own post)
+
+https://user-images.githubusercontent.com/79712014/187278843-a71ff9cc-14ec-4125-8a77-fb252fb06e28.mp4
 
 ## Library used
 
