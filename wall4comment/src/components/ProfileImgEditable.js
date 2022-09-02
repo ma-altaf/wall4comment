@@ -42,7 +42,12 @@ function ProfileImgEditable() {
                 }}
             >
                 {progress != 100 && <LoadingProgress progress={progress} />}
-                <ProfilePic imgRef={imgRef} image={userImg} rounded />
+                <ProfilePic
+                    imgRef={imgRef}
+                    image={userImg}
+                    userName={user.displayName}
+                    rounded
+                />
             </div>
         </>
     );

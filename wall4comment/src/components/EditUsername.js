@@ -11,7 +11,10 @@ function EditUsername() {
     const changeName = async () => {
         if (username.length > 0) {
             try {
-                username !== defaultUser && (await updateName(username));
+                if (username !== defaultUser) {
+                    await updateName(username);
+                    !user.photoURL && window.location.reload(); // changes profile image letters
+                }
                 setDefaultUser(username);
             } catch (error) {
                 alert("Sorry, username could not be changed");

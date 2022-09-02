@@ -1,8 +1,12 @@
 import React from "react";
-import defaultPP from "../asset/defaultPic.jpg";
 import { motion } from "framer-motion";
 
-function ProfilePic({ image, rounded = false, imgRef }) {
+function ProfilePic({ image, userName, rounded = false, imgRef }) {
+    const shortName = () =>
+        userName
+            ?.split(" ", 3)
+            .reduce((shortName, subName) => (shortName += subName[0]), "");
+
     return (
         <motion.div
             initial={{ scale: 0, opacity: 0 }}
@@ -11,11 +15,17 @@ function ProfilePic({ image, rounded = false, imgRef }) {
                 rounded && "rounded-full bg-gray-200"
             } overflow-hidden pointer-events-none`}
         >
-            <img
-                ref={imgRef}
-                src={image || defaultPP}
-                className="object-cover w-full h-full"
-            />
+            {image ? (
+                <img
+                    ref={imgRef}
+                    src={image}
+                    className="object-cover w-full h-full"
+                />
+            ) : (
+                <div className="w-full h-full bg-blue-600 flex justify-center items-center uppercase text-5xl tracking-wide text-white">
+                    {shortName() || "w4c"}
+                </div>
+            )}
         </motion.div>
     );
 }
