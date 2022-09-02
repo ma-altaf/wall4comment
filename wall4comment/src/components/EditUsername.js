@@ -13,7 +13,8 @@ function EditUsername() {
             try {
                 if (username !== defaultUser) {
                     await updateName(username);
-                    !user.photoURL && window.location.reload(); // changes profile image letters
+                    // changes profile image letters
+                    !user.photoURL && window.location.reload();
                 }
                 setDefaultUser(username);
             } catch (error) {
