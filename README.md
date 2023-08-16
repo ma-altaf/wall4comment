@@ -6,8 +6,6 @@ The name was originally inspired by the video game term **“4th Wall”** which
 
 In order to keep this idea of **anonymity** while also not being so direct I came up with the name “Wall 4 Comment” which can be seen as either **“Wall For Comment”** as in a wall where people can stick comments, and no one will know who did it and/or a play on the term "4th wall".
 
-That was creative, I know.
-
 Check the live website: https://wall4comment.web.app/
 
 Send me a comment about the website: https://wall4comment.web.app/writeComment/kXNGnhVkPvPwQr2DlQJTEqSweO62/vCQJAonzKgunS5Fb7mSh
